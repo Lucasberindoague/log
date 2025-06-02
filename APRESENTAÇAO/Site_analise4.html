@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise 4 - Tempo de Resolução</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #F9FAFB;
+            --title-color: #0D47A1;
+            --text-primary: #263238;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding: 20px;
+            background-color: var(--bg-primary);
+        }
+        
+        h1, h2 {
+            color: var(--title-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .graph-container {
+            margin: 2rem 0;
+        }
+        
+        .graph-container img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1.5rem;
+        }
+        
+        .graph-description {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--title-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Análise do Tempo de Resolução</h1>
+        
+        <div class="section">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value">48h</div>
+                    <div class="stat-label">Tempo Médio de Resolução</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">85%</div>
+                    <div class="stat-label">Resolvidos no Prazo</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">24h</div>
+                    <div class="stat-label">Tempo Mediano</div>
+                </div>
+            </div>
+
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa4/distribuicao_tempo.png" alt="Distribuição do Tempo de Resolução">
+                <h2>Distribuição dos Tempos de Resolução</h2>
+                <div class="graph-description">
+                    Análise detalhada da distribuição dos tempos de resolução dos chamados, mostrando a concentração significativa entre 24h e 72h. O gráfico evidencia o padrão de resolução dos casos, permitindo identificar tanto os atendimentos dentro do prazo esperado quanto os casos que demandam atenção especial por ultrapassarem o tempo médio de resolução.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa4/fatores_tempo.png" alt="Fatores que Influenciam o Tempo">
+                <h2>Fatores que Impactam o Tempo de Resolução</h2>
+                <div class="graph-description">
+                    Identificação e análise dos principais fatores que influenciam o tempo de resolução dos chamados. Este gráfico permite compreender quais variáveis têm maior impacto na duração do atendimento, fornecendo insights valiosos para a otimização dos processos e a redução dos tempos de resposta.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

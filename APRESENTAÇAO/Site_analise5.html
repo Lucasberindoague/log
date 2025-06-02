@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise 5 - Avaliação Cliente</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #F9FAFB;
+            --bg-secondary: #37474F;
+            --title-color: #0D47A1;
+            --text-primary: #263238;
+            --text-secondary: #607D8B;
+            --link-color: #1976D2;
+            --highlight: #FFB300;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding: 20px;
+            background-color: var(--bg-primary);
+        }
+        
+        h1, h2, h3 {
+            color: var(--title-color);
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+        
+        p {
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section {
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .graph-container {
+            margin: 2rem 0;
+            text-align: center;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .graph-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .graph-container img:hover {
+            transform: scale(1.02);
+        }
+        
+        .graph-title {
+            color: var(--title-color);
+            font-size: 1.2rem;
+            margin: 1.2rem 0;
+            font-weight: 500;
+        }
+        
+        .graph-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        ul, ol {
+            color: var(--text-primary);
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 0.5rem;
+        }
+        
+        ul li::before {
+            content: '';
+            position: absolute;
+            left: -1rem;
+            top: 0.5rem;
+            width: 6px;
+            height: 6px;
+            background-color: var(--highlight);
+            border-radius: 50%;
+        }
+        
+        ol li::marker {
+            color: var(--highlight);
+            font-weight: 500;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--title-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .highlight-box {
+            background-color: rgba(13, 71, 161, 0.1);
+            border-left: 4px solid var(--highlight);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .highlight-box p {
+            margin: 0;
+            color: var(--text-primary);
+        }
+        
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: linear-gradient(to right, #ff4d4d, #ffb300, #4caf50);
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+        }
+        
+        .rating-point {
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Análise 5 – Avaliação do Cliente</h1>
+        
+        <div class="section">
+            <h2>Visão Geral</h2>
+            <p>Esta análise foca na satisfação dos clientes com os serviços de manutenção prestados, avaliando as notas atribuídas e identificando fatores que influenciam a percepção do cliente.</p>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value">4.2</div>
+                    <div class="stat-label">Nota Média Geral</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">78%</div>
+                    <div class="stat-label">Avaliações Positivas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">92%</div>
+                    <div class="stat-label">Taxa de Resposta</div>
+                </div>
+            </div>
+            
+            <div class="rating-scale">
+                <div class="rating-point">1</div>
+                <div class="rating-point">2</div>
+                <div class="rating-point">3</div>
+                <div class="rating-point">4</div>
+                <div class="rating-point">5</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Distribuição das Avaliações</h2>
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa5/distribuicao_notas.png" alt="Distribuição das Notas">
+                <p class="graph-title">Distribuição das Notas de Avaliação</p>
+                <p class="graph-description">Análise da distribuição das notas atribuídas pelos clientes aos serviços prestados.</p>
+            </div>
+            
+            <div class="highlight-box">
+                <p>A maioria das avaliações concentra-se nas notas 4 e 5, indicando um alto nível de satisfação geral dos clientes.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Fatores de Influência</h2>
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa5/fatores_satisfacao.png" alt="Fatores de Satisfação">
+                <p class="graph-title">Análise dos Fatores que Impactam a Satisfação</p>
+                <p class="graph-description">Identificação e quantificação dos principais fatores que influenciam a avaliação dos clientes.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Conclusões e Insights</h2>
+            <h3>Principais Observações:</h3>
+            <ul>
+                <li>Alto índice de satisfação geral dos clientes</li>
+                <li>Correlação positiva entre tempo de resolução e avaliação</li>
+                <li>Padrões específicos de avaliação por tipo de serviço</li>
+            </ul>
+            
+            <h3>Recomendações:</h3>
+            <ol>
+                <li>Focar na manutenção dos altos níveis de satisfação</li>
+                <li>Implementar melhorias baseadas no feedback dos clientes</li>
+                <li>Desenvolver estratégias para aumentar a taxa de resposta</li>
+                <li>Criar planos de ação para serviços com avaliações mais baixas</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

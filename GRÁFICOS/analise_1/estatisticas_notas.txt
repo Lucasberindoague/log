@@ -1,0 +1,5 @@
+
+Estatísticas da Análise:
+- Total de registros analisados: 7195
+- Registros válidos (notas 0-5): 257
+- Registros descartados: 6938

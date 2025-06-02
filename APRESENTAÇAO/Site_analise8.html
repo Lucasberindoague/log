@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise 8 - Correlações e Padrões</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #F9FAFB;
+            --bg-secondary: #37474F;
+            --title-color: #0D47A1;
+            --text-primary: #263238;
+            --text-secondary: #607D8B;
+            --link-color: #1976D2;
+            --highlight: #FFB300;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding: 20px;
+            background-color: var(--bg-primary);
+        }
+        
+        h1, h2, h3 {
+            color: var(--title-color);
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+        
+        p {
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section {
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .graph-container {
+            margin: 2rem 0;
+            text-align: center;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .graph-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .graph-container img:hover {
+            transform: scale(1.02);
+        }
+        
+        .graph-title {
+            color: var(--title-color);
+            font-size: 1.2rem;
+            margin: 1.2rem 0;
+            font-weight: 500;
+        }
+        
+        .graph-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        ul, ol {
+            color: var(--text-primary);
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 0.5rem;
+        }
+        
+        ul li::before {
+            content: '';
+            position: absolute;
+            left: -1rem;
+            top: 0.5rem;
+            width: 6px;
+            height: 6px;
+            background-color: var(--highlight);
+            border-radius: 50%;
+        }
+        
+        ol li::marker {
+            color: var(--highlight);
+            font-weight: 500;
+        }
+        
+        h3 {
+            color: var(--title-color);
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        table {
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 1rem;
+            border: 1px solid var(--text-secondary);
+            color: var(--text-primary);
+        }
+        
+        th {
+            background-color: var(--bg-secondary);
+            color: white;
+            font-weight: 500;
+        }
+        
+        td {
+            background-color: white;
+        }
+        
+        tr:hover td {
+            background-color: var(--bg-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Análise 8 – Correlações e Padrões</h1>
+        
+        <div class="section">
+            <h2>Visão Geral da Análise de Correlações</h2>
+            <p>Esta análise tem como objetivo identificar padrões, correlações e relacionamentos entre diferentes variáveis do sistema, como tempo de resolução, avaliação do cliente, distribuição regional e tipos de serviço.</p>
+        </div>
+
+        <div class="section">
+            <h2>Correlações entre Galpões Logísticos</h2>
+            <p>A matriz de correlação que você gerou mostra o grau de associação entre os condomínios, com base nos chamados feitos por diferentes clientes.</p>
+            
+            <p>Ou seja:</p>
+            
+            <p>Se dois condomínios têm correlação alta (+1), isso sugere que eles costumam receber chamados em padrões semelhantes de clientes (ex: o mesmo cliente gera chamados em ambos com frequência parecida).</p>
+            
+            <p>Se dois condomínios têm correlação baixa ou negativa (~0 ou -1), isso indica que os clientes que acionam um não acionam o outro com o mesmo padrão — ou até o fazem de forma oposta.</p>
+            
+            <h3>🧠 Como ler o heatmap gerado?</h3>
+            <p>Imagine a matriz como uma tabela onde linhas e colunas representam os nomes dos condomínios.</p>
+            
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa8/correlacao_condominios.png" alt="Correlação entre Condomínios" style="width: 100%; max-width: 1200px;">
+                <p class="graph-title">Matriz de Correlação entre Condomínios</p>
+                <p class="graph-description">Heatmap mostrando o grau de associação entre os condomínios baseado nos padrões de chamados dos clientes.</p>
+            </div>
+
+            <p>Cada célula mostra um valor de correlação entre dois condomínios diferentes, variando de -1 a +1:</p>
+            
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Correlação</th>
+                        <th>Interpretação prática</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>+1</td>
+                        <td>Os dois condomínios recebem chamados em padrões idênticos de clientes</td>
+                    </tr>
+                    <tr>
+                        <td>+0.7</td>
+                        <td>Há forte semelhança no perfil de chamados/clientes</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>Sem relação aparente — chamados em um não indicam nada sobre o outro</td>
+                    </tr>
+                    <tr>
+                        <td>-0.7</td>
+                        <td>Padrão inverso — se um recebe muitos chamados, o outro tende a receber poucos</td>
+                    </tr>
+                    <tr>
+                        <td>-1</td>
+                        <td>Comportamento totalmente oposto entre os dois</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Interpretação visual:</h3>
+            <ul>
+                <li>Quanto mais vermelho intenso, mais positiva é a correlação</li>
+                <li>Quanto mais azul escuro, mais negativa</li>
+                <li>E as cores próximas ao branco ou bege indicam pouca ou nenhuma correlação</li>
+            </ul>
+
+            <h3>🧩 Exemplo prático da análise:</h3>
+            <p>Suponha que a correlação entre Cond A e Cond B seja +0.85. Isso sugere que:</p>
+            <ul>
+                <li>Muito provavelmente, o mesmo cliente está por trás dos chamados em ambos</li>
+                <li>Pode-se propor uma padronização de atendimento nesses dois condomínios, já que compartilham origem dos chamados</li>
+            </ul>
+
+            <p>Agora, se entre Cond C e Cond D a correlação for -0.6, isso indica:</p>
+            <ul>
+                <li>Os clientes que geram chamados em C raramente fazem o mesmo em D, ou o fazem com menos frequência</li>
+                <li>Estratégias de atendimento para C não servem automaticamente para D — são contextos distintos</li>
+            </ul>
+
+            <h3>🛠️ E como isso ajuda a empresa?</h3>
+            <ul>
+                <li>Segmentar a atuação por clusters de condomínios correlacionados</li>
+                <li>Entender a distribuição territorial de clientes mais ativos</li>
+                <li>Identificar gargalos localizados em certas regiões/condomínios</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Correlações entre Variáveis</h2>
+            <p>Análise das principais correlações entre variáveis numéricas do sistema.</p>
+            
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa8/matriz_correlacao.png" alt="Matriz de Correlação">
+                <p class="graph-title">Matriz de Correlação entre Variáveis Numéricas</p>
+                <p class="graph-description">Visualização das correlações entre tempo de resolução e avaliação do cliente.</p>
+            </div>
+            
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa8/scatter_tempo_avaliacao.png" alt="Scatter Plot">
+                <p class="graph-title">Relação entre Tempo de Resolução e Avaliação</p>
+                <p class="graph-description">Gráfico de dispersão mostrando a relação entre o tempo de resolução e a avaliação do cliente.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Análise Regional</h2>
+            <p>Avaliação dos padrões de desempenho por estado.</p>
+            
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa8/boxplot_tempo_estado.png" alt="Boxplot por Estado">
+                <p class="graph-title">Distribuição do Tempo de Resolução por Estado</p>
+                <p class="graph-description">Comparação da variabilidade do tempo de resolução entre diferentes estados.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Análise por Tipo de Serviço</h2>
+            <p>Identificação de padrões específicos por categoria de serviço.</p>
+            
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa8/boxplot_avaliacao_servico.png" alt="Boxplot por Serviço">
+                <p class="graph-title">Distribuição da Avaliação por Tipo de Serviço (Top 10)</p>
+                <p class="graph-description">Análise da variação nas avaliações dos clientes para os 10 serviços mais frequentes.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Análise Temporal</h2>
+            <p>Evolução dos indicadores ao longo do tempo.</p>
+            
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa8/evolucao_temporal.png" alt="Evolução Temporal">
+                <p class="graph-title">Evolução Temporal: Tempo de Resolução e Avaliação Média</p>
+                <p class="graph-description">Tendências temporais do tempo de resolução e avaliações dos clientes.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Análise de Clusters</h2>
+            <p>Identificação de grupos de chamados com características similares.</p>
+            
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa8/clusters.png" alt="Análise de Clusters">
+                <p class="graph-title">Clusters de Chamados por Tempo e Avaliação</p>
+                <p class="graph-description">Agrupamento de chamados baseado no tempo de resolução e avaliação do cliente.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Conclusões e Insights</h2>
+            <h3>Principais Observações:</h3>
+            <ul>
+                <li>Identificação de correlações significativas entre tempo de resolução e avaliação do cliente</li>
+                <li>Padrões distintos de desempenho entre diferentes estados</li>
+                <li>Variação considerável na eficiência entre tipos de serviço</li>
+                <li>Existência de grupos claros de desempenho nos chamados</li>
+            </ul>
+            
+            <h3>Recomendações:</h3>
+            <ol>
+                <li>Estabelecer metas específicas por cluster de desempenho identificado</li>
+                <li>Padronizar processos nos estados com maior variabilidade</li>
+                <li>Implementar melhorias baseadas nos serviços melhor avaliados</li>
+                <li>Criar sistema de monitoramento contínuo de padrões temporais</li>
+                <li>Desenvolver indicadores compostos de eficiência operacional</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

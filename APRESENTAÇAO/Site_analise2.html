@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise 2 - Temporal</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #F9FAFB;
+            --bg-secondary: #37474F;
+            --title-color: #0D47A1;
+            --text-primary: #263238;
+            --text-secondary: #607D8B;
+            --link-color: #1976D2;
+            --highlight: #FFB300;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding: 20px;
+            background-color: var(--bg-primary);
+        }
+        
+        h1, h2, h3 {
+            color: var(--title-color);
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+        
+        p {
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section {
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .graph-container {
+            margin: 2rem 0;
+            text-align: center;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .graph-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .graph-container img:hover {
+            transform: scale(1.02);
+        }
+        
+        .graph-title {
+            color: var(--title-color);
+            font-size: 1.2rem;
+            margin: 1.2rem 0;
+            font-weight: 500;
+        }
+        
+        .graph-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        ul, ol {
+            color: var(--text-primary);
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 0.5rem;
+        }
+        
+        ul li::before {
+            content: '';
+            position: absolute;
+            left: -1rem;
+            top: 0.5rem;
+            width: 6px;
+            height: 6px;
+            background-color: var(--highlight);
+            border-radius: 50%;
+        }
+        
+        ol li::marker {
+            color: var(--highlight);
+            font-weight: 500;
+        }
+        
+        h3 {
+            color: var(--title-color);
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Análise 2 – Temporal</h1>
+        
+        <div class="section">
+            <h2>Visão Geral da Análise Temporal</h2>
+            <p>Esta análise tem como objetivo compreender os padrões temporais nos chamados de manutenção, identificando tendências, sazonalidades e comportamentos ao longo do tempo. Foram analisadas diferentes perspectivas temporais, incluindo distribuição mensal, por dia da semana e tempos de resolução.</p>
+        </div>
+
+        <div class="section">
+            <h2>Volume de Chamados por Mês</h2>
+            <p>A análise mensal dos chamados permite identificar padrões sazonais e tendências ao longo dos anos. O gráfico apresenta linhas sobrepostas para cada ano, facilitando a comparação do volume de chamados entre os mesmos meses em diferentes anos.</p>
+            
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa2/volume_mensal.png" alt="Volume Mensal de Chamados">
+                <p class="graph-title">Distribuição Mensal dos Chamados - Comparação entre Anos</p>
+                <p class="graph-description">Análise comparativa do volume de chamados mês a mês, com linhas distintas para cada ano, permitindo identificar padrões sazonais e tendências ao longo do tempo.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Distribuição por Dia da Semana</h2>
+            <p>A análise por dia da semana revela padrões importantes na distribuição dos chamados, auxiliando na alocação de recursos e planejamento operacional semanal.</p>
+            
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa2/volume_dia_semana.png" alt="Volume por Dia da Semana">
+                <p class="graph-title">Volume de Chamados por Dia da Semana</p>
+                <p class="graph-description">Distribuição dos chamados ao longo dos dias da semana, identificando dias com maior concentração de ocorrências.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Tempo de Resolução</h2>
+            <p>A análise do tempo de resolução dos chamados é fundamental para avaliar a eficiência operacional e identificar possíveis gargalos no processo de atendimento.</p>
+            
+            <div class="graph-container">
+                <img src="../GRÁFICOS/graficos_etapa2/tempo_resolucao.png" alt="Tempo de Resolução">
+                <p class="graph-title">Análise do Tempo de Resolução</p>
+                <p class="graph-description">Distribuição dos tempos de resolução dos chamados, permitindo identificar padrões e possíveis pontos de melhoria no processo.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Conclusões e Insights</h2>
+            <h3>Principais Observações:</h3>
+            <ul>
+                <li>Identificação de padrões sazonais na distribuição mensal dos chamados</li>
+                <li>Análise da distribuição semanal para melhor alocação de recursos</li>
+                <li>Compreensão dos tempos médios de resolução e suas variações</li>
+            </ul>
+            
+            <h3>Recomendações:</h3>
+            <ol>
+                <li>Ajustar o dimensionamento da equipe conforme padrões temporais identificados</li>
+                <li>Implementar estratégias específicas para períodos de maior demanda</li>
+                <li>Estabelecer metas de tempo de resolução baseadas nos padrões observados</li>
+                <li>Desenvolver planos de ação para otimização dos processos nos períodos críticos</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
