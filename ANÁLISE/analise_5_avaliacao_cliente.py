@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
+from datetime import datetime
 
 # Configurações gerais para os gráficos
 plt.rcParams['figure.figsize'] = (12, 6)
@@ -22,12 +23,11 @@ print("\n" + "="*80)
 print("ANÁLISE DA AVALIAÇÃO DO CLIENTE")
 print("="*80)
 
-# Carregando os dados
 print("\nCarregando dados...")
-df = pd.read_excel('0 - BD_tratado.xlsx')
+df = pd.read_excel('BD/0 - BD_tratado.xlsx')
 
 # Renomeando a coluna de avaliação para facilitar o uso
-df['num_avaliacao'] = df['vlr_nota_avaliacao_cliente_atendimento']
+df['num_avaliacao'] = df['Nota_Avaliação']
 
 # Documentando as colunas utilizadas
 print("\n# Colunas utilizadas na análise da avaliação:")
@@ -40,9 +40,9 @@ print("# - des_status: Status do chamado")
 print("# - des_comentario: Comentário do cliente")
 
 # Convertendo datas e calculando tempo de resolução
-df['dat_criacao'] = pd.to_datetime(df['dat_criacao'])
-df['dat_resolucao'] = pd.to_datetime(df['dat_resolucao'])
-df['tempo_resolucao_dias'] = (df['dat_resolucao'] - df['dat_criacao']).dt.total_seconds() / (24*60*60)
+df['Data_Criação'] = pd.to_datetime(df['Data_Criação'])
+df['Data_Resolução'] = pd.to_datetime(df['Data_Resolução'])
+df['tempo_resolucao_dias'] = (df['Data_Resolução'] - df['Data_Criação']).dt.total_seconds() / (24*60*60)
 
 # Criando diretório para gráficos
 Path('graficos_etapa5').mkdir(exist_ok=True)
@@ -114,7 +114,7 @@ plt.close()
 
 # 8. Avaliação média por estado
 print("\nAnalisando avaliação média por estado...")
-aval_por_estado = df_valid.groupby('cod_uf')['num_avaliacao'].agg(['mean', 'count', 'std']).round(2)
+aval_por_estado = df_valid.groupby('Estado_UF')['num_avaliacao'].agg(['mean', 'count', 'std']).round(2)
 aval_por_estado = aval_por_estado.sort_values('mean', ascending=False)
 
 plt.figure(figsize=(12, 6))
@@ -131,7 +131,7 @@ plt.close()
 
 # 9. Avaliação média por tipo de serviço
 print("\nAnalisando avaliação média por tipo de serviço...")
-aval_por_servico = df_valid.groupby('des_tipo_servico')['num_avaliacao'].agg(['mean', 'count', 'std']).round(2)
+aval_por_servico = df_valid.groupby('Categoria_Serviço')['num_avaliacao'].agg(['mean', 'count', 'std']).round(2)
 aval_por_servico = aval_por_servico[aval_por_servico['count'] >= 10]  # Filtrando serviços com pelo menos 10 avaliações
 aval_por_servico = aval_por_servico.sort_values('mean', ascending=False)
 
@@ -150,7 +150,7 @@ plt.close()
 
 # 10. Avaliação média por prioridade
 print("\nAnalisando avaliação média por prioridade...")
-aval_por_prioridade = df_valid.groupby('des_prioridade')['num_avaliacao'].agg(['mean', 'count', 'std']).round(2)
+aval_por_prioridade = df_valid.groupby('Prioridade')['num_avaliacao'].agg(['mean', 'count', 'std']).round(2)
 aval_por_prioridade = aval_por_prioridade.sort_values('mean', ascending=False)
 
 plt.figure(figsize=(10, 6))
@@ -181,7 +181,7 @@ plt.close()
 
 # 12. Evolução temporal das avaliações
 print("\nAnalisando evolução temporal das avaliações...")
-aval_media_mensal = df_valid.groupby(df_valid['dat_criacao'].dt.to_period('M'))['num_avaliacao'].mean()
+aval_media_mensal = df_valid.groupby(df_valid['Data_Criação'].dt.to_period('M'))['num_avaliacao'].mean()
 
 plt.figure(figsize=(15, 6))
 aval_media_mensal.plot(kind='line', marker='o')
@@ -198,8 +198,8 @@ plt.close()
 print("\nGerando heatmap de avaliação por estado e tipo de serviço...")
 pivot_estado_servico = df_valid.pivot_table(
     values='num_avaliacao',
-    index='cod_uf',
-    columns='des_tipo_servico',
+    index='Estado_UF',
+    columns='Categoria_Serviço',
     aggfunc='mean'
 )
 
@@ -214,7 +214,7 @@ plt.close()
 
 # 14. Análise de comentários
 print("\nAnalisando comentários dos clientes...")
-comentarios_por_nota = df_valid.groupby('num_avaliacao')['des_comentario'].count()
+comentarios_por_nota = df_valid.groupby('num_avaliacao')['Comentário'].count()
 
 plt.figure(figsize=(10, 6))
 comentarios_por_nota.plot(kind='bar')
@@ -224,6 +224,47 @@ plt.ylabel('Quantidade de Comentários')
 plt.grid(True)
 plt.tight_layout()
 plt.savefig('graficos_etapa5/barras_comentarios_por_nota.png')
+plt.close()
+
+# Adicionando análise dos fatores de influência
+print("\nAnalisando fatores que influenciam a satisfação...")
+
+# Criando um DataFrame com os fatores e seus impactos
+fatores = pd.DataFrame({
+    'Fator': [
+        'Tempo de Resolução',
+        'Qualidade do Atendimento',
+        'Comunicação',
+        'Tipo de Serviço',
+        'Prioridade do Chamado'
+    ],
+    'Impacto': [
+        df['Nota_Avaliação'].corr(df['Tempo_Resolução_Horas']) * -1,  # Invertendo pois menor tempo é melhor
+        df.groupby('Status_Chamado')['Nota_Avaliação'].mean().std(),  # Variação por status
+        df.groupby('Comentário')['Nota_Avaliação'].mean().std(),  # Variação por comunicação
+        df.groupby('Tipo_Serviço')['Nota_Avaliação'].mean().std(),  # Variação por tipo de serviço
+        df.groupby('Prioridade')['Nota_Avaliação'].mean().std()  # Variação por prioridade
+    ]
+})
+
+# Normalizando os impactos para uma escala de 0 a 1
+fatores['Impacto_Normalizado'] = (fatores['Impacto'] - fatores['Impacto'].min()) / (fatores['Impacto'].max() - fatores['Impacto'].min())
+
+# Criando o gráfico de barras horizontais
+plt.figure(figsize=(12, 6))
+bars = plt.barh(fatores['Fator'], fatores['Impacto_Normalizado'], color='skyblue')
+plt.title('Fatores que Influenciam a Satisfação do Cliente')
+plt.xlabel('Impacto Normalizado')
+
+# Adicionando os valores nas barras
+for i, bar in enumerate(bars):
+    width = bar.get_width()
+    plt.text(width, bar.get_y() + bar.get_height()/2, 
+             f'{fatores["Impacto_Normalizado"][i]:.2f}', 
+             ha='left', va='center', fontweight='bold')
+
+plt.tight_layout()
+plt.savefig('GRÁFICOS/graficos_etapa5/fatores_satisfacao.png', dpi=300, bbox_inches='tight')
 plt.close()
 
 # Conclusões da Análise da Avaliação do Cliente
@@ -327,7 +368,7 @@ print("""
     aval_media_mensal.index[aval_media_mensal.argmax()],
     aval_media_mensal.index[aval_media_mensal.argmin()],
     aval_media_mensal.max() - aval_media_mensal.min(),
-    (df_valid['des_comentario'].notna().sum() / len(df_valid)) * 100,
+    (df_valid['Comentário'].notna().sum() / len(df_valid)) * 100,
     dict(comentarios_por_nota / comentarios_por_nota.sum()),
     comentarios_por_nota.nlargest(2).index.tolist(),
     "A satisfação dos clientes apresenta padrão consistente ao longo do tempo" if aval_media_mensal.std() < 0.5 else "Existe variação significativa na satisfação ao longo do tempo",

@@ -178,7 +178,6 @@
                         <button class="nav-link" onclick="loadContent('APRESENTAÇAO/Site_analise6.html')">Análise 6 - Categorias</button>
                         <button class="nav-link" onclick="loadContent('APRESENTAÇAO/Site_analise7.html')">Análise 7 - Não Resolvidos</button>
                         <button class="nav-link" onclick="loadContent('APRESENTAÇAO/Site_analise8.html')">Análise 8 - Correlações</button>
-                        <button class="nav-link" onclick="loadContent('APRESENTAÇAO/Site_analise9.html')">Análise 9 - Exploração Livre</button>
                     </div>
                 </div>
             </div>
@@ -198,34 +197,27 @@
     <!-- Script para navegação -->
     <script>
         function loadContent(url) {
-            // Atualiza o iframe com a nova página
-            const frame = document.getElementById('content-frame');
-            frame.src = url;
+            document.getElementById('content-frame').src = url;
             
-            // Atualiza o estado ativo dos botões
+            // Atualiza o botão ativo
             document.querySelectorAll('.nav-link').forEach(button => {
-                button.classList.remove('active');
                 if (button.getAttribute('onclick').includes(url)) {
                     button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
                 }
             });
-            
-            // Em dispositivos móveis, rola para o conteúdo
-            if (window.innerWidth < 768) {
-                frame.scrollIntoView({ behavior: 'smooth' });
-            }
         }
         
-        // Ajusta a altura do iframe quando o conteúdo muda
-        document.getElementById('content-frame').addEventListener('load', function() {
-            this.style.height = this.contentWindow.document.documentElement.scrollHeight + 'px';
-        });
+        // Função para ajustar a altura do iframe
+        function adjustIframeHeight() {
+            const iframe = document.getElementById('content-frame');
+            iframe.style.height = window.innerHeight - 110 + 'px';
+        }
         
-        // Ajusta a altura quando a janela é redimensionada
-        window.addEventListener('resize', function() {
-            const frame = document.getElementById('content-frame');
-            frame.style.height = frame.contentWindow.document.documentElement.scrollHeight + 'px';
-        });
+        // Ajusta a altura inicialmente e quando a janela é redimensionada
+        window.onload = adjustIframeHeight;
+        window.onresize = adjustIframeHeight;
     </script>
 </body>
 </html> 

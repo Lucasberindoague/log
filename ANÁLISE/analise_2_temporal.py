@@ -10,14 +10,14 @@ plt.rcParams['axes.titlesize'] = 12
 plt.rcParams['axes.labelsize'] = 10
 
 # Carregando os dados
-df = pd.read_excel('0 - BD_tratado.xlsx')
+df = pd.read_excel('../BD/0 - BD_tratado.xlsx')
 
 # Convertendo a coluna de data para datetime se necessário
-df['dat_criacao'] = pd.to_datetime(df['dat_criacao'])
+df['Data_Criação'] = pd.to_datetime(df['Data_Criação'])
 
 # Criando colunas de ano e mês
-df['Ano'] = df['dat_criacao'].dt.year
-df['Mês'] = df['dat_criacao'].dt.month
+df['Ano'] = df['Data_Criação'].dt.year
+df['Mês'] = df['Data_Criação'].dt.month
 
 # Agrupando os dados por ano e mês
 volume_mensal = df.groupby(['Ano', 'Mês']).size().reset_index(name='Quantidade')
@@ -61,9 +61,9 @@ plt.close()
 # Mantendo os outros gráficos da análise temporal
 # Análise por dia da semana
 plt.figure(figsize=(12, 6))
-df['dia_semana'] = df['dat_criacao'].dt.day_name()
+df['Dia_Semana'] = df['Data_Criação'].dt.day_name()
 ordem_dias = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-volume_diario = df['dia_semana'].value_counts().reindex(ordem_dias)
+volume_diario = df['Dia_Semana'].value_counts().reindex(ordem_dias)
 
 sns.barplot(x=volume_diario.index, y=volume_diario.values)
 plt.title('Volume de Chamados por Dia da Semana')
@@ -76,8 +76,8 @@ plt.close()
 
 # Análise do tempo de resolução
 plt.figure(figsize=(12, 6))
-df['tempo_resolucao'] = (pd.to_datetime(df['dat_resolucao']) - pd.to_datetime(df['dat_criacao'])).dt.total_seconds() / 3600
-sns.histplot(data=df, x='tempo_resolucao', bins=50)
+df['Tempo_Resolução_Horas'] = (pd.to_datetime(df['Data_Resolução']) - pd.to_datetime(df['Data_Criação'])).dt.total_seconds() / 3600
+sns.histplot(data=df, x='Tempo_Resolução_Horas', bins=50)
 plt.title('Distribuição do Tempo de Resolução dos Chamados')
 plt.xlabel('Tempo de Resolução (horas)')
 plt.ylabel('Frequência')

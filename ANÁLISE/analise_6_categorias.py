@@ -24,7 +24,7 @@ print("="*80)
 
 # Carregando os dados
 print("\nCarregando dados...")
-df = pd.read_excel('0 - BD_tratado.xlsx')
+df = pd.read_excel('../BD/0 - BD_tratado.xlsx')
 
 # Documentando as colunas utilizadas
 print("\n# Colunas utilizadas na análise de categorias:")
@@ -35,16 +35,16 @@ print("# - cod_uf: Estado do chamado")
 print("# - vlr_nota_avaliacao_cliente_atendimento: Nota dada pelo cliente (1 a 5)")
 
 # Convertendo datas e calculando tempo de resolução
-df['dat_criacao'] = pd.to_datetime(df['dat_criacao'])
-df['dat_resolucao'] = pd.to_datetime(df['dat_resolucao'])
-df['tempo_resolucao_dias'] = (df['dat_resolucao'] - df['dat_criacao']).dt.total_seconds() / (24*60*60)
+df['Data_Criação'] = pd.to_datetime(df['Data_Criação'])
+df['Data_Resolução'] = pd.to_datetime(df['Data_Resolução'])
+df['tempo_resolucao_dias'] = (df['Data_Resolução'] - df['Data_Criação']).dt.total_seconds() / (24*60*60)
 
 # Criando diretório para gráficos
 Path('graficos_etapa6').mkdir(exist_ok=True)
 
 # 1. Análise por Tipo de Serviço
 print("\nAnalisando distribuição por tipo de serviço...")
-tipo_servico = df['des_tipo_servico'].value_counts()
+tipo_servico = df['Categoria_Serviço'].value_counts()
 tipo_servico_pct = (tipo_servico / len(df) * 100).round(2)
 
 print("\nFrequência por tipo de serviço:")
@@ -65,7 +65,7 @@ plt.close()
 
 # 2. Análise por Assunto
 print("\nAnalisando distribuição por assunto...")
-assunto = df['des_assunto'].value_counts()
+assunto = df['Assunto'].value_counts()
 assunto_pct = (assunto / len(df) * 100).round(2)
 
 print("\nFrequência por assunto:")
@@ -88,7 +88,7 @@ plt.close()
 print("\nAnalisando tempo médio de resolução por categoria...")
 
 # Por tipo de serviço
-tempo_medio_servico = df.groupby('des_tipo_servico')['tempo_resolucao_dias'].agg(['mean', 'count']).round(2)
+tempo_medio_servico = df.groupby('Categoria_Serviço')['tempo_resolucao_dias'].agg(['mean', 'count']).round(2)
 tempo_medio_servico = tempo_medio_servico[tempo_medio_servico['count'] >= 10]  # Filtrando categorias com pelo menos 10 chamados
 tempo_medio_servico = tempo_medio_servico.sort_values('mean', ascending=False)
 
@@ -107,10 +107,10 @@ plt.close()
 print("\nAnalisando avaliação média por categoria...")
 
 # Filtrando avaliações válidas (1 a 5)
-df_valid = df[df['vlr_nota_avaliacao_cliente_atendimento'].between(1, 5)]
+df_valid = df[df['Nota_Avaliação'].between(1, 5)]
 
 # Por tipo de serviço
-aval_media_servico = df_valid.groupby('des_tipo_servico')['vlr_nota_avaliacao_cliente_atendimento'].agg(['mean', 'count']).round(2)
+aval_media_servico = df_valid.groupby('Categoria_Serviço')['Nota_Avaliação'].agg(['mean', 'count']).round(2)
 aval_media_servico = aval_media_servico[aval_media_servico['count'] >= 10]  # Filtrando categorias com pelo menos 10 avaliações
 aval_media_servico = aval_media_servico.sort_values('mean', ascending=False)
 
@@ -119,7 +119,7 @@ aval_media_servico['mean'].head(10).plot(kind='bar')
 plt.title('Avaliação Média por Tipo de Serviço (Top 10)')
 plt.xlabel('Tipo de Serviço')
 plt.ylabel('Avaliação Média')
-plt.axhline(y=df_valid['vlr_nota_avaliacao_cliente_atendimento'].mean(), color='r', linestyle='--', label='Média Geral')
+plt.axhline(y=df_valid['Nota_Avaliação'].mean(), color='r', linestyle='--', label='Média Geral')
 plt.legend()
 plt.xticks(rotation=45, ha='right')
 plt.grid(True)
@@ -129,7 +129,7 @@ plt.close()
 
 # 5. Análise Cruzada: Tipo de Serviço por Estado
 print("\nAnalisando distribuição de tipos de serviço por estado...")
-servico_estado = pd.crosstab(df['des_tipo_servico'], df['cod_uf'])
+servico_estado = pd.crosstab(df['Categoria_Serviço'], df['Estado_UF'])
 servico_estado_pct = servico_estado.div(servico_estado.sum(axis=0), axis=1) * 100
 
 # Heatmap dos tipos de serviço mais frequentes por estado
@@ -161,8 +161,8 @@ plt.close()
 
 # 7. Análise de Sazonalidade por Categoria
 print("\nAnalisando sazonalidade por categoria...")
-df['mes'] = df['dat_criacao'].dt.month
-servico_mes = pd.crosstab(df['des_tipo_servico'], df['mes'])
+df['mes'] = df['Data_Criação'].dt.month
+servico_mes = pd.crosstab(df['Categoria_Serviço'], df['mes'])
 servico_mes_pct = servico_mes.div(servico_mes.sum(axis=0), axis=1) * 100
 
 # Heatmap da sazonalidade dos tipos de serviço
@@ -177,10 +177,10 @@ plt.close()
 
 # 8. Análise de Complexidade por Categoria
 print("\nAnalisando complexidade por categoria...")
-complexidade = df.groupby('des_tipo_servico').agg({
+complexidade = df.groupby('Categoria_Serviço').agg({
     'tempo_resolucao_dias': ['mean', 'std'],
-    'des_assunto': 'nunique',
-    'cod_uf': 'nunique'
+    'Assunto': 'nunique',
+    'Estado_UF': 'nunique'
 }).round(2)
 
 complexidade.columns = ['tempo_medio', 'tempo_std', 'num_assuntos', 'num_estados']

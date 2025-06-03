@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análise 3 - Regional</title>
+    <title>Análise 3 - Distribuição Regional</title>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -14,8 +14,12 @@
     <style>
         :root {
             --bg-primary: #F9FAFB;
+            --bg-secondary: #37474F;
             --title-color: #0D47A1;
             --text-primary: #263238;
+            --text-secondary: #607D8B;
+            --link-color: #1976D2;
+            --highlight: #FFB300;
         }
         
         body {
@@ -26,63 +30,111 @@
             background-color: var(--bg-primary);
         }
         
-        h1, h2 {
+        h1, h2, h3 {
             color: var(--title-color);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             font-weight: 600;
         }
         
+        p {
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+        
         .section {
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
             background-color: #fff;
             border-radius: 10px;
-            padding: 2rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         
         .graph-container {
             margin: 2rem 0;
+            text-align: center;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .graph-container img {
             max-width: 100%;
             height: auto;
-            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .graph-container img:hover {
+            transform: scale(1.02);
+        }
+        
+        .graph-title {
+            color: var(--title-color);
+            font-size: 1.2rem;
+            margin: 1.2rem 0;
+            font-weight: 500;
         }
         
         .graph-description {
-            color: var(--text-primary);
-            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 2rem;
             line-height: 1.6;
-            margin-top: 1rem;
-            padding: 1rem;
-            background-color: #f8f9fa;
-            border-radius: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Distribuição por Estado</h1>
+        <h1>Análise 3 - Distribuição Regional</h1>
         
         <div class="section">
+            <h2>Distribuição por Estado</h2>
             <div class="graph-container">
-                <img src="../GRÁFICOS/graficos_etapa3/mapa_estados.png" alt="Mapa de Distribuição por Estado">
-                <h2>Mapa de Calor - Concentração de Chamados por Estado</h2>
-                <div class="graph-description">
-                    Visualização da distribuição geográfica dos chamados através de um mapa de calor, destacando as regiões com maior volume de ocorrências. O mapa permite identificar claramente as áreas de maior concentração de demanda, facilitando a compreensão da distribuição territorial dos serviços e auxiliando na tomada de decisões estratégicas para alocação de recursos e equipes.
-                </div>
+                <img src="../GRÁFICOS/graficos_etapa3/barras_distribuicao_estados.png" alt="Distribuição por Estado" class="img-fluid">
+                <h3 class="graph-title">Número de Chamados por Estado</h3>
+                <p class="graph-description">
+                    Visualização da distribuição dos chamados entre os diferentes estados, permitindo identificar as regiões com maior demanda.
+                </p>
             </div>
         </div>
 
         <div class="section">
+            <h2>Mapa de Calor - Concentração Regional</h2>
             <div class="graph-container">
-                <img src="../GRÁFICOS/graficos_etapa3/grafico_regioes.png" alt="Gráfico por Região">
-                <h2>Volume de Chamados por Região</h2>
-                <div class="graph-description">
-                    Análise comparativa do volume de chamados entre as diferentes regiões do país, evidenciando as disparidades regionais e permitindo uma visão clara da distribuição da demanda. Este gráfico auxilia na identificação de padrões regionais e na elaboração de estratégias específicas para cada área, considerando suas particularidades e necessidades.
-                </div>
+                <img src="../GRÁFICOS/graficos_etapa3/mapa_distribuicao_estados.png" alt="Mapa de Calor da Distribuição Regional" class="img-fluid">
+                <h3 class="graph-title">Concentração de Chamados por Estado ao Longo do Tempo</h3>
+                <p class="graph-description">
+                    Mapa de calor mostrando a concentração de chamados por estado ao longo dos meses, permitindo identificar padrões temporais e regionais.
+                </p>
             </div>
+        </div>
+
+        <div class="section">
+            <h2>Conclusões e Insights</h2>
+            <h3>Principais Observações:</h3>
+            <ul>
+                <li>Total de estados atendidos: 18</li>
+                <li>Estado com maior volume: MG (32.2% dos chamados)</li>
+                <li>Estado com menor volume: MT</li>
+                <li>Existe grande variação no tempo de resolução entre estados</li>
+            </ul>
+            
+            <h3>Recomendações:</h3>
+            <ol>
+                <li>Investigar as práticas do estado MG para replicar sua eficiência</li>
+                <li>Avaliar processos nos estados com tempo médio superior a 72 dias</li>
+                <li>Estabelecer metas regionais considerando as particularidades de cada estado</li>
+                <li>Implementar monitoramento específico para unidades com tempo médio elevado</li>
+            </ol>
         </div>
     </div>
 

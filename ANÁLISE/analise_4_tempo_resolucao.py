@@ -24,7 +24,7 @@ print("="*80)
 
 # Carregando os dados
 print("\nCarregando dados...")
-df = pd.read_excel('0 - BD_tratado.xlsx')
+df = pd.read_excel('../BD/0 - BD_tratado.xlsx')
 
 # Documentando as colunas utilizadas
 print("\n# Colunas utilizadas na análise do tempo de resolução:")
@@ -38,14 +38,14 @@ print("# - des_status: Status do chamado")
 
 # Convertendo datas para datetime
 print("\nConvertendo colunas temporais...")
-df['dat_criacao'] = pd.to_datetime(df['dat_criacao'])
-df['dat_resolucao'] = pd.to_datetime(df['dat_resolucao'])
+df['Data_Criação'] = pd.to_datetime(df['Data_Criação'])
+df['Data_Resolução'] = pd.to_datetime(df['Data_Resolução'])
 
 # Criando coluna de tempo de resolução em dias
 print("\nCriando coluna de tempo de resolução...")
 print("# Nova coluna criada:")
 print("# - tempo_resolucao_dias: Diferença em dias entre data de resolução e criação")
-df['tempo_resolucao_dias'] = (df['dat_resolucao'] - df['dat_criacao']).dt.total_seconds() / (24*60*60)
+df['tempo_resolucao_dias'] = (df['Data_Resolução'] - df['Data_Criação']).dt.total_seconds() / (24*60*60)
 
 # Criando diretório para gráficos
 Path('graficos_etapa4').mkdir(exist_ok=True)
@@ -98,7 +98,7 @@ plt.close()
 
 # 5. Tempo Médio por Estado
 print("\nAnalisando tempo médio por estado...")
-tempo_por_estado = df.groupby('cod_uf')['tempo_resolucao_dias'].agg(['mean', 'count', 'std']).round(2)
+tempo_por_estado = df.groupby('Estado_UF')['tempo_resolucao_dias'].agg(['mean', 'count', 'std']).round(2)
 tempo_por_estado = tempo_por_estado.sort_values('mean', ascending=True)
 
 plt.figure(figsize=(12, 6))
@@ -114,7 +114,7 @@ plt.close()
 
 # 6. Tempo Médio por Tipo de Serviço
 print("\nAnalisando tempo médio por tipo de serviço...")
-tempo_por_servico = df.groupby('des_tipo_servico')['tempo_resolucao_dias'].agg(['mean', 'count', 'std']).round(2)
+tempo_por_servico = df.groupby('Categoria_Serviço')['tempo_resolucao_dias'].agg(['mean', 'count', 'std']).round(2)
 tempo_por_servico = tempo_por_servico[tempo_por_servico['count'] >= 10]  # Filtrando serviços com pelo menos 10 chamados
 tempo_por_servico = tempo_por_servico.sort_values('mean', ascending=True)
 
@@ -131,7 +131,7 @@ plt.close()
 
 # 7. Tempo Médio por Prioridade
 print("\nAnalisando tempo médio por prioridade...")
-tempo_por_prioridade = df.groupby('des_prioridade')['tempo_resolucao_dias'].agg(['mean', 'count', 'std']).round(2)
+tempo_por_prioridade = df.groupby('Prioridade')['tempo_resolucao_dias'].agg(['mean', 'count', 'std']).round(2)
 tempo_por_prioridade = tempo_por_prioridade.sort_values('mean', ascending=True)
 
 plt.figure(figsize=(10, 6))
@@ -147,7 +147,7 @@ plt.close()
 
 # 8. Boxplot por Prioridade
 plt.figure(figsize=(12, 6))
-sns.boxplot(data=df, x='des_prioridade', y='tempo_resolucao_dias')
+sns.boxplot(data=df, x='Prioridade', y='tempo_resolucao_dias')
 plt.title('Distribuição do Tempo de Resolução por Prioridade')
 plt.xlabel('Prioridade')
 plt.ylabel('Tempo (dias)')
@@ -158,7 +158,7 @@ plt.close()
 
 # 9. Evolução do Tempo de Resolução ao Longo do Tempo
 print("\nAnalisando evolução temporal do tempo de resolução...")
-tempo_medio_mensal = df.groupby(df['dat_criacao'].dt.to_period('M'))['tempo_resolucao_dias'].mean()
+tempo_medio_mensal = df.groupby(df['Data_Criação'].dt.to_period('M'))['tempo_resolucao_dias'].mean()
 
 plt.figure(figsize=(15, 6))
 tempo_medio_mensal.plot(kind='line', marker='o')
@@ -175,8 +175,8 @@ plt.close()
 print("\nGerando heatmap de tempo por estado e tipo de serviço...")
 pivot_estado_servico = df.pivot_table(
     values='tempo_resolucao_dias',
-    index='cod_uf',
-    columns='des_tipo_servico',
+    index='Estado_UF',
+    columns='Categoria_Serviço',
     aggfunc='mean'
 )
 
@@ -200,7 +200,7 @@ percentual_outliers = (len(outliers) / len(tempo_valido)) * 100
 
 # 12. Distribuição dos Outliers por Status
 print("\nAnalisando distribuição dos outliers por status...")
-status_outliers = df[df['tempo_resolucao_dias'] > limite_superior]['des_status'].value_counts()
+status_outliers = df[df['tempo_resolucao_dias'] > limite_superior]['Status_Chamado'].value_counts()
 
 plt.figure(figsize=(10, 6))
 status_outliers.plot(kind='pie', autopct='%1.1f%%')

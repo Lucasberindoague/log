@@ -61,23 +61,23 @@ for var, info in numeric_explanations.items():
 categoric_explanations = {
     'status_chamados': 'A análise dos status dos chamados mostra que aproximadamente 75% estão marcados como "Resolvido" ou "Fechado", indicando uma boa taxa de conclusão. Os chamados em status "Aberto" (cerca de 15%) e "Pendente" (10%) representam o trabalho em andamento. A baixa proporção de chamados "Excluídos" ou "Em espera" sugere um fluxo de trabalho eficiente com poucos casos problemáticos.',
     
-    'des_prioridade': 'A distribuição das prioridades revela que cerca de 50% dos chamados são classificados como prioridade média, 30% como alta e 20% como baixa. Esta distribuição sugere uma categorização adequada das demandas, permitindo um gerenciamento eficiente dos recursos. A proporção relativamente alta de chamados de alta prioridade indica a importância crítica de muitos serviços prestados.',
+    'Prioridade': 'A distribuição das prioridades revela que cerca de 50% dos chamados são classificados como prioridade média, 30% como alta e 20% como baixa. Esta distribuição sugere uma categorização adequada das demandas, permitindo um gerenciamento eficiente dos recursos. A proporção relativamente alta de chamados de alta prioridade indica a importância crítica de muitos serviços prestados.',
     
-    'cod_uf': 'A distribuição geográfica dos chamados por UF mostra uma concentração significativa em SP (30%), RJ (20%) e MG (15%), refletindo tanto a densidade populacional quanto a presença comercial da empresa nestas regiões. Estados do Norte e Nordeste apresentam volumes menores, o que pode indicar oportunidades de expansão ou necessidade de maior atenção nestas regiões.',
+    'Estado_UF': 'A distribuição geográfica dos chamados por UF mostra uma concentração significativa em SP (30%), RJ (20%) e MG (15%), refletindo tanto a densidade populacional quanto a presença comercial da empresa nestas regiões. Estados do Norte e Nordeste apresentam volumes menores, o que pode indicar oportunidades de expansão ou necessidade de maior atenção nestas regiões.',
     
-    'des_origem_ticket': 'As origens dos tickets mostram que o canal mais utilizado é o portal web (40%), seguido por e-mail (30%) e telefone (20%). A predominância de canais digitais sugere uma boa adoção das ferramentas online pelos clientes. O baixo volume de tickets originados por canais alternativos (10%) pode indicar oportunidades de expansão dos meios de contato.',
+    'Origem_Chamado': 'As origens dos tickets mostram que o canal mais utilizado é o portal web (40%), seguido por e-mail (30%) e telefone (20%). A predominância de canais digitais sugere uma boa adoção das ferramentas online pelos clientes. O baixo volume de tickets originados por canais alternativos (10%) pode indicar oportunidades de expansão dos meios de contato.',
     
-    'des_local': 'A análise dos locais de atendimento indica uma concentração em ambientes corporativos (60%) e comerciais (25%), com menor presença em ambientes residenciais (15%). Esta distribuição reflete o foco do negócio em clientes empresariais e pode orientar a especialização das equipes de atendimento.',
+    'Local': 'A análise dos locais de atendimento indica uma concentração em ambientes corporativos (60%) e comerciais (25%), com menor presença em ambientes residenciais (15%). Esta distribuição reflete o foco do negócio em clientes empresariais e pode orientar a especialização das equipes de atendimento.',
     
-    'des_servico': 'Os tipos de serviços solicitados mostram que manutenção preventiva (35%) e corretiva (30%) são os mais frequentes, seguidos por instalações (20%) e consultorias (15%). Esta distribuição ajuda no dimensionamento das equipes e recursos necessários para cada tipo de serviço.',
+    'Tipo_Serviço': 'Os tipos de serviços solicitados mostram que manutenção preventiva (35%) e corretiva (30%) são os mais frequentes, seguidos por instalações (20%) e consultorias (15%). Esta distribuição ajuda no dimensionamento das equipes e recursos necessários para cada tipo de serviço.',
     
-    'des_tipo_servico': 'A categorização por tipo de serviço revela que serviços técnicos especializados representam 45% dos chamados, seguidos por suporte básico (30%) e consultoria (25%). Esta informação é crucial para o planejamento de treinamentos e alocação de profissionais especializados.',
+    'Categoria_Serviço': 'A categorização por tipo de serviço revela que serviços técnicos especializados representam 45% dos chamados, seguidos por suporte básico (30%) e consultoria (25%). Esta informação é crucial para o planejamento de treinamentos e alocação de profissionais especializados.',
     
-    'des_status_etapa': 'O status das etapas mostra que 60% dos chamados seguem o fluxo normal de atendimento, 25% requerem atenção especial e 15% apresentam algum tipo de impedimento. Esta análise ajuda a identificar gargalos no processo e oportunidades de melhoria no fluxo de trabalho.',
+    'Status_Etapa': 'O status das etapas mostra que 60% dos chamados seguem o fluxo normal de atendimento, 25% requerem atenção especial e 15% apresentam algum tipo de impedimento. Esta análise ajuda a identificar gargalos no processo e oportunidades de melhoria no fluxo de trabalho.',
     
-    'des_atendimento': 'Os tipos de atendimento indicam que 50% são resolvidos remotamente, 30% requerem visita técnica e 20% são solucionados via suporte telefônico. Esta distribuição é importante para otimizar a alocação de recursos e melhorar a eficiência do atendimento.',
+    'Tipo_Atendimento': 'Os tipos de atendimento indicam que 50% são resolvidos remotamente, 30% requerem visita técnica e 20% são solucionados via suporte telefônico. Esta distribuição é importante para otimizar a alocação de recursos e melhorar a eficiência do atendimento.',
     
-    'dia_semana': 'A distribuição por dia da semana mostra maior volume de chamados às segundas-feiras (25%) e terças-feiras (20%), com redução gradual até sexta-feira (15%). Os finais de semana apresentam volume reduzido (5% cada), o que é esperado para operações comerciais. Este padrão auxilia no planejamento da escala de trabalho das equipes.'
+    'Dia_Semana': 'A distribuição por dia da semana mostra maior volume de chamados às segundas-feiras (25%) e terças-feiras (20%), com redução gradual até sexta-feira (15%). Os finais de semana apresentam volume reduzido (5% cada), o que é esperado para operações comerciais. Este padrão auxilia no planejamento da escala de trabalho das equipes.'
 }
 
 # Configurando o display do pandas para mostrar mais colunas
@@ -86,7 +86,7 @@ pd.set_option('display.width', None)
 
 # Carregando os dados
 print("\nCarregando dados...")
-df = pd.read_excel('BD/0 - BD_tratado.xlsx')
+df = pd.read_excel('../BD/0 - BD_tratado.xlsx')
 
 # Dicionário de tradução dos status
 traducao_status = {
@@ -100,13 +100,13 @@ traducao_status = {
 }
 
 # Traduzindo os status
-df['Status do Chamado'] = df['des_status'].map(traducao_status)
+df['Status do Chamado'] = df['Status_Chamado'].map(traducao_status)
 
 # Renomeando as variáveis numéricas
 mapeamento_colunas = {
-    'vlr_nota_avaliacao_cliente_atendimento': 'nota_avaliacao_cliente',
-    'tempo_resolucao': 'tempo_resolucao_horas',
-    'hora': 'hora_abertura'
+    'Nota_Avaliação': 'nota_avaliacao_cliente',
+    'Tempo_Resolução_Horas': 'tempo_resolucao_horas',
+    'Hora_Chamado': 'hora_abertura'
 }
 
 # Aplicando o renomeamento
@@ -146,8 +146,8 @@ print("Análise de status dos chamados concluída!")
 colunas_excluir = [
     'email', 'telefone', 'numerica_vlr_time_spent_last_update',
     'numerica_vlr_total_time_spent', 'Descricao de comentario',
-    'descriçao de veiculos', 'des_email_usuario_solicitante',
-    'cod_chamado'
+    'descriçao de veiculos', 'Email_Solicitante',
+    'Código_Chamado'
 ]
 
 # Removendo as colunas irrelevantes

@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import geopandas as gpd
 from pathlib import Path
 
 # Configurações gerais para os gráficos
@@ -24,7 +25,7 @@ print("="*80)
 
 # Carregando os dados
 print("\nCarregando dados...")
-df = pd.read_excel('0 - BD_tratado.xlsx')
+df = pd.read_excel('BD/0 - BD_tratado.xlsx')
 
 # Documentando as colunas utilizadas
 print("\n# Colunas utilizadas na análise regional:")
@@ -34,16 +35,62 @@ print("# - dat_criacao: Data de criação do chamado")
 print("# - dat_resolucao: Data de resolução do chamado")
 
 # Convertendo datas para cálculo do tempo de resolução
-df['dat_criacao'] = pd.to_datetime(df['dat_criacao'])
-df['dat_resolucao'] = pd.to_datetime(df['dat_resolucao'])
-df['tempo_resolucao'] = (df['dat_resolucao'] - df['dat_criacao']).dt.total_seconds() / (24*60*60)  # em dias
+df['Data_Criação'] = pd.to_datetime(df['Data_Criação'])
+df['Data_Resolução'] = pd.to_datetime(df['Data_Resolução'])
+df['Tempo_Resolução_Horas'] = (df['Data_Resolução'] - df['Data_Criação']).dt.total_seconds() / (24*60*60)  # em dias
 
 # Criando diretório para gráficos
-Path('graficos_etapa3').mkdir(exist_ok=True)
+Path('GRÁFICOS/graficos_etapa3').mkdir(parents=True, exist_ok=True)
+
+# Análise da distribuição por estado
+print("\nAnalisando distribuição por estado...")
+estado_counts = df['Estado_UF'].value_counts()
+total_chamados = len(df)
+
+# Preparando os dados para o mapa de calor
+df['Data_Criação'] = pd.to_datetime(df['Data_Criação'])
+df['Mês'] = df['Data_Criação'].dt.strftime('%Y-%m')
+
+# Gerando o mapa de calor da distribuição temporal por estado
+pivot_estado_mes = df.pivot_table(
+    index='Estado_UF',
+    columns='Mês',
+    values='Código_Chamado',
+    aggfunc='count',
+    fill_value=0
+)
+
+# Normalizando os valores por estado
+pivot_estado_mes_norm = pivot_estado_mes.div(pivot_estado_mes.sum(axis=1), axis=0) * 100
+
+plt.figure(figsize=(15, 8))
+sns.heatmap(pivot_estado_mes_norm, 
+           cmap='YlOrRd',
+           cbar_kws={'label': 'Percentual de Chamados (%)'},
+           fmt='.1f')
+plt.title('Mapa de Calor - Concentração de Chamados por Estado')
+plt.xlabel('Mês')
+plt.ylabel('Estado')
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.savefig('GRÁFICOS/graficos_etapa3/mapa_distribuicao_estados.png', dpi=300, bbox_inches='tight')
+plt.close()
+
+# Gerando gráfico de barras da distribuição por estado
+plt.figure(figsize=(12, 6))
+estado_counts.plot(kind='bar')
+plt.title('Distribuição dos Chamados por Estado')
+plt.xlabel('Estado')
+plt.ylabel('Número de Chamados')
+plt.xticks(rotation=45, ha='right')
+plt.grid(True)
+plt.tight_layout()
+plt.savefig('GRÁFICOS/graficos_etapa3/barras_distribuicao_estados.png', dpi=300, bbox_inches='tight')
+plt.close()
 
 # 1. Análise por Estado
 print("\nAnalisando distribuição por estado...")
-chamados_por_estado = df['cod_uf'].value_counts()
+chamados_por_estado = df['Estado_UF'].value_counts()
 
 # Gráfico de barras dos chamados por estado
 plt.figure(figsize=(12, 6))
@@ -67,7 +114,7 @@ plt.close()
 
 # 2. Análise por Condomínio
 print("\nAnalisando distribuição por condomínio...")
-chamados_por_condominio = df['des_condominio'].value_counts().head(10)
+chamados_por_condominio = df['Condomínio'].value_counts().head(10)
 
 plt.figure(figsize=(15, 6))
 chamados_por_condominio.plot(kind='bar')
@@ -82,7 +129,7 @@ plt.close()
 
 # 3. Análise do Tempo de Resolução por Estado
 print("\nAnalisando tempo de resolução por estado...")
-tempo_medio_por_estado = df.groupby('cod_uf')['tempo_resolucao'].agg(['mean', 'std', 'count']).round(2)
+tempo_medio_por_estado = df.groupby('Estado_UF')['Tempo_Resolução_Horas'].agg(['mean', 'std', 'count']).round(2)
 tempo_medio_por_estado = tempo_medio_por_estado.sort_values('mean', ascending=True)
 
 # Gráfico de barras do tempo médio por estado
@@ -99,7 +146,7 @@ plt.close()
 
 # Boxplot do tempo de resolução por estado
 plt.figure(figsize=(15, 6))
-sns.boxplot(data=df, x='cod_uf', y='tempo_resolucao')
+sns.boxplot(data=df, x='Estado_UF', y='Tempo_Resolução_Horas')
 plt.title('Distribuição do Tempo de Resolução por Estado')
 plt.xlabel('Estado')
 plt.ylabel('Tempo de Resolução (dias)')
@@ -111,7 +158,7 @@ plt.close()
 
 # 4. Análise do Tempo de Resolução por Condomínio
 print("\nAnalisando tempo de resolução por condomínio...")
-tempo_medio_por_condominio = df.groupby('des_condominio')['tempo_resolucao'].agg(['mean', 'count'])
+tempo_medio_por_condominio = df.groupby('Condomínio')['Tempo_Resolução_Horas'].agg(['mean', 'count'])
 tempo_medio_por_condominio = tempo_medio_por_condominio[tempo_medio_por_condominio['count'] >= 10]  # Filtrando condomínios com pelo menos 10 chamados
 tempo_medio_por_condominio = tempo_medio_por_condominio.sort_values('mean', ascending=True)
 
@@ -143,9 +190,9 @@ plt.close()
 # 5. Heatmap do Tempo de Resolução por Estado e Mês
 print("\nGerando heatmap do tempo de resolução por estado e mês...")
 pivot_estado_mes = df.pivot_table(
-    values='tempo_resolucao',
-    index='cod_uf',
-    columns=df['dat_criacao'].dt.to_period('M'),
+    values='Tempo_Resolução_Horas',
+    index='Estado_UF',
+    columns=df['Data_Criação'].dt.to_period('M'),
     aggfunc='mean'
 )
 
@@ -161,9 +208,9 @@ plt.close()
 # 6. Análise de Volume por Estado e Mês
 print("\nGerando heatmap do volume de chamados por estado e mês...")
 pivot_volume_estado_mes = df.pivot_table(
-    values='tempo_resolucao',
-    index='cod_uf',
-    columns=df['dat_criacao'].dt.to_period('M'),
+    values='Tempo_Resolução_Horas',
+    index='Estado_UF',
+    columns=df['Data_Criação'].dt.to_period('M'),
     aggfunc='count'
 )
 
@@ -178,9 +225,9 @@ plt.close()
 
 # 7. Análise de Eficiência Regional
 print("\nAnalisando eficiência regional...")
-eficiencia_regional = df.groupby('cod_uf').agg({
-    'tempo_resolucao': ['mean', 'count'],
-    'cod_chamado': 'count'
+eficiencia_regional = df.groupby('Estado_UF').agg({
+    'Tempo_Resolução_Horas': ['mean', 'count'],
+    'Código_Chamado': 'count'
 }).round(2)
 
 eficiencia_regional.columns = ['tempo_medio', 'chamados_resolvidos', 'total_chamados']
@@ -201,8 +248,8 @@ plt.close()
 
 # Análise específica de Minas Gerais
 print("\nAnálise específica de Minas Gerais...")
-mg_stats = df[df['cod_uf'] == 'MG']['tempo_resolucao'].describe()
-outros_stats = df[df['cod_uf'] != 'MG']['tempo_resolucao'].describe()
+mg_stats = df[df['Estado_UF'] == 'MG']['Tempo_Resolução_Horas'].describe()
+outros_stats = df[df['Estado_UF'] != 'MG']['Tempo_Resolução_Horas'].describe()
 
 # Conclusões da Análise Regional
 print("\n" + "="*80)
@@ -253,7 +300,7 @@ print("""
     (chamados_por_estado.iloc[0] / len(df)) * 100,
     chamados_por_estado.index[-1],
     (chamados_por_estado.iloc[-1] / len(df)) * 100,
-    df['des_condominio'].nunique(),
+    df['Condomínio'].nunique(),
     chamados_por_condominio.index[0],
     chamados_por_condominio.iloc[0],
     (chamados_por_condominio.sum() / len(df)) * 100,

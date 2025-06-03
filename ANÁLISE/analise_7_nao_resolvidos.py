@@ -25,7 +25,7 @@ print("="*80)
 
 # Carregando os dados
 print("\nCarregando dados...")
-df = pd.read_excel('0 - BD_tratado.xlsx')
+df = pd.read_excel('../BD/0 - BD_tratado.xlsx')
 
 # Documentando as colunas utilizadas
 print("\n# Colunas utilizadas na análise de chamados não resolvidos:")
@@ -39,15 +39,15 @@ print("# - des_status: Status do chamado")
 print("# - des_assunto: Assunto do chamado")
 
 # Convertendo datas
-df['dat_criacao'] = pd.to_datetime(df['dat_criacao'])
-df['dat_resolucao'] = pd.to_datetime(df['dat_resolucao'])
+df['Data_Criação'] = pd.to_datetime(df['Data_Criação'])
+df['Data_Resolução'] = pd.to_datetime(df['Data_Resolução'])
 
 # Data atual para cálculo do tempo em aberto
 data_atual = pd.Timestamp.now()
 
 # 1. Identificação dos chamados não resolvidos
 print("\nIdentificando chamados não resolvidos...")
-df_nao_resolvidos = df[df['dat_resolucao'].isnull()]
+df_nao_resolvidos = df[df['Data_Resolução'].isnull()]
 total_nao_resolvidos = len(df_nao_resolvidos)
 percentual_nao_resolvidos = (total_nao_resolvidos / len(df)) * 100
 
@@ -56,7 +56,7 @@ print(f"Percentual de chamados não resolvidos: {percentual_nao_resolvidos:.1f}%
 
 # 2. Cálculo do tempo em aberto
 print("\nCalculando tempo em aberto...")
-df_nao_resolvidos['tempo_em_aberto_dias'] = (data_atual - df_nao_resolvidos['dat_criacao']).dt.total_seconds() / (24*60*60)
+df_nao_resolvidos['tempo_em_aberto_dias'] = (data_atual - df_nao_resolvidos['Data_Criação']).dt.total_seconds() / (24*60*60)
 
 # Estatísticas do tempo em aberto
 stats_tempo_aberto = df_nao_resolvidos['tempo_em_aberto_dias'].describe()
@@ -68,7 +68,7 @@ Path('graficos_etapa7').mkdir(exist_ok=True)
 
 # 3. Distribuição por Estado
 print("\nAnalisando distribuição por estado...")
-estado_nao_resolvidos = df_nao_resolvidos['cod_uf'].value_counts()
+estado_nao_resolvidos = df_nao_resolvidos['Estado_UF'].value_counts()
 estado_nao_resolvidos_pct = (estado_nao_resolvidos / total_nao_resolvidos * 100).round(2)
 
 plt.figure(figsize=(12, 6))
@@ -91,7 +91,7 @@ plt.close()
 
 # 4. Distribuição por Tipo de Serviço
 print("\nAnalisando distribuição por tipo de serviço...")
-servico_nao_resolvidos = df_nao_resolvidos['des_tipo_servico'].value_counts()
+servico_nao_resolvidos = df_nao_resolvidos['Categoria_Serviço'].value_counts()
 servico_nao_resolvidos_pct = (servico_nao_resolvidos / total_nao_resolvidos * 100).round(2)
 
 plt.figure(figsize=(15, 6))
@@ -107,7 +107,7 @@ plt.close()
 
 # 5. Distribuição por Prioridade
 print("\nAnalisando distribuição por prioridade...")
-prioridade_nao_resolvidos = df_nao_resolvidos['des_prioridade'].value_counts()
+prioridade_nao_resolvidos = df_nao_resolvidos['Prioridade'].value_counts()
 prioridade_nao_resolvidos_pct = (prioridade_nao_resolvidos / total_nao_resolvidos * 100).round(2)
 
 plt.figure(figsize=(10, 6))
@@ -122,7 +122,7 @@ plt.close()
 
 # 6. Tempo Médio em Aberto por Estado
 print("\nAnalisando tempo médio em aberto por estado...")
-tempo_medio_estado = df_nao_resolvidos.groupby('cod_uf')['tempo_em_aberto_dias'].agg(['mean', 'count']).round(2)
+tempo_medio_estado = df_nao_resolvidos.groupby('Estado_UF')['tempo_em_aberto_dias'].agg(['mean', 'count']).round(2)
 tempo_medio_estado = tempo_medio_estado.sort_values('mean', ascending=False)
 
 plt.figure(figsize=(12, 6))
@@ -137,7 +137,7 @@ plt.close()
 
 # 7. Tempo Médio em Aberto por Tipo de Serviço
 print("\nAnalisando tempo médio em aberto por tipo de serviço...")
-tempo_medio_servico = df_nao_resolvidos.groupby('des_tipo_servico')['tempo_em_aberto_dias'].agg(['mean', 'count']).round(2)
+tempo_medio_servico = df_nao_resolvidos.groupby('Categoria_Serviço')['tempo_em_aberto_dias'].agg(['mean', 'count']).round(2)
 tempo_medio_servico = tempo_medio_servico[tempo_medio_servico['count'] >= 5]  # Filtrando serviços com pelo menos 5 chamados
 tempo_medio_servico = tempo_medio_servico.sort_values('mean', ascending=False)
 
@@ -154,7 +154,7 @@ plt.close()
 
 # 8. Tempo Médio em Aberto por Prioridade
 print("\nAnalisando tempo médio em aberto por prioridade...")
-tempo_medio_prioridade = df_nao_resolvidos.groupby('des_prioridade')['tempo_em_aberto_dias'].agg(['mean', 'count']).round(2)
+tempo_medio_prioridade = df_nao_resolvidos.groupby('Prioridade')['tempo_em_aberto_dias'].agg(['mean', 'count']).round(2)
 tempo_medio_prioridade = tempo_medio_prioridade.sort_values('mean', ascending=False)
 
 plt.figure(figsize=(10, 6))
@@ -179,7 +179,7 @@ print(f"Percentual do total de não resolvidos: {percentual_antigos:.1f}%")
 
 # 10. Distribuição dos Chamados Antigos por Prioridade
 print("\nAnalisando distribuição dos chamados antigos por prioridade...")
-antigos_por_prioridade = chamados_antigos['des_prioridade'].value_counts()
+antigos_por_prioridade = chamados_antigos['Prioridade'].value_counts()
 antigos_por_prioridade_pct = (antigos_por_prioridade / total_antigos * 100).round(2)
 
 plt.figure(figsize=(10, 6))
@@ -194,7 +194,7 @@ plt.close()
 
 # 11. Evolução Temporal dos Chamados Não Resolvidos
 print("\nAnalisando evolução temporal dos chamados não resolvidos...")
-df_nao_resolvidos['mes_criacao'] = df_nao_resolvidos['dat_criacao'].dt.to_period('M')
+df_nao_resolvidos['mes_criacao'] = df_nao_resolvidos['Data_Criação'].dt.to_period('M')
 evolucao_temporal = df_nao_resolvidos.groupby('mes_criacao').size()
 
 plt.figure(figsize=(15, 6))
@@ -210,7 +210,7 @@ plt.close()
 
 # 12. Heatmap de Chamados Não Resolvidos por Estado e Tipo de Serviço
 print("\nGerando heatmap de chamados não resolvidos...")
-heatmap_data = pd.crosstab(df_nao_resolvidos['cod_uf'], df_nao_resolvidos['des_tipo_servico'])
+heatmap_data = pd.crosstab(df_nao_resolvidos['Estado_UF'], df_nao_resolvidos['Categoria_Serviço'])
 
 plt.figure(figsize=(15, 8))
 sns.heatmap(heatmap_data, cmap='YlOrRd', annot=True, fmt='d')
@@ -306,9 +306,9 @@ print("""
     limite_dias,
     total_antigos,
     percentual_antigos,
-    chamados_antigos['des_tipo_servico'].mode()[0],
-    chamados_antigos['cod_uf'].mode()[0],
-    chamados_antigos['des_prioridade'].mode()[0],
+    chamados_antigos['Categoria_Serviço'].mode()[0],
+    chamados_antigos['Estado_UF'].mode()[0],
+    chamados_antigos['Prioridade'].mode()[0],
     "Tendência de aumento" if evolucao_temporal.iloc[-1] > evolucao_temporal.iloc[0] else "Tendência de redução",
     evolucao_temporal.index[evolucao_temporal.argmax()],
     evolucao_temporal.index[evolucao_temporal.argmin()],
