@@ -1,0 +1,35 @@
+{
+    "Nota_Avaliação": {
+        "descricao": "Nota atribuída pelo cliente ao atendimento recebido, em uma escala de 1 a 5.",
+        "estatisticas": {
+            "media": 4.913207547169812,
+            "mediana": 5.0,
+            "desvio_padrao": 6.481034035759271,
+            "minimo": 0.0,
+            "maximo": 50.0
+        },
+        "explicacao": "A distribuição das notas de avaliação mostra uma concentração em valores altos (4-5), com média de 4.91 e mediana 5.00. O desvio padrão de 6.48 indica variabilidade moderada nas avaliações."
+    },
+    "Tempo_Resolução_Horas": {
+        "descricao": "Tempo total necessário para resolver o chamado, medido em horas.",
+        "estatisticas": {
+            "media": 49.11987798271886,
+            "mediana": 20.26219907407408,
+            "desvio_padrao": 83.49120382144237,
+            "minimo": 0.0,
+            "maximo": 1006.971111111111
+        },
+        "explicacao": "O tempo médio de resolução é de 49.12 horas, com mediana de 20.26 horas. A diferença entre média e mediana indica assimetria na distribuição."
+    },
+    "Hora_Chamado": {
+        "descricao": "Hora do dia em que o chamado foi aberto (0-23).",
+        "estatisticas": {
+            "media": 12.844058373870743,
+            "mediana": 13.0,
+            "desvio_padrao": 3.211284521140023,
+            "minimo": 0,
+            "maximo": 23
+        },
+        "explicacao": "A hora média de abertura dos chamados é 12.84, com concentração no horário comercial. O desvio padrão de 13.00 horas indica variação esperada ao longo do dia."
+    }
+}

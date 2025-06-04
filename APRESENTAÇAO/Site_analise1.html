@@ -173,10 +173,8 @@
                     <option value="des_prioridade">Prioridade</option>
                     <option value="cod_uf">UF</option>
                     <option value="des_origem_ticket">Origem do Ticket</option>
-                    <option value="des_local">Local</option>
                     <option value="des_servico">Serviço</option>
                     <option value="des_tipo_servico">Tipo de Serviço</option>
-                    <option value="des_status_etapa">Status da Etapa</option>
                     <option value="des_atendimento">Atendimento</option>
                     <option value="dia_semana">Dia da Semana</option>
                 </select>
@@ -187,15 +185,99 @@
                 <img src="../GRÁFICOS/graficos_etapa1/categorica_des_prioridade.png" class="graph-image" data-var="des_prioridade">
                 <img src="../GRÁFICOS/graficos_etapa1/categorica_cod_uf.png" class="graph-image" data-var="cod_uf">
                 <img src="../GRÁFICOS/graficos_etapa1/categorica_des_origem_ticket.png" class="graph-image" data-var="des_origem_ticket">
-                <img src="../GRÁFICOS/graficos_etapa1/categorica_des_local.png" class="graph-image" data-var="des_local">
                 <img src="../GRÁFICOS/graficos_etapa1/categorica_des_servico.png" class="graph-image" data-var="des_servico">
                 <img src="../GRÁFICOS/graficos_etapa1/categorica_des_tipo_servico.png" class="graph-image" data-var="des_tipo_servico">
-                <img src="../GRÁFICOS/graficos_etapa1/categorica_des_status_etapa.png" class="graph-image" data-var="des_status_etapa">
                 <img src="../GRÁFICOS/graficos_etapa1/categorica_des_atendimento.png" class="graph-image" data-var="des_atendimento">
                 <img src="../GRÁFICOS/graficos_etapa1/categorica_dia_semana.png" class="graph-image" data-var="dia_semana">
+                
+                <h4 id="graphTitle" class="text-center mt-3 mb-2" style="color: #0D47A1; font-size: 1.2em;"></h4>
+                <p id="categoricExplanation" class="text-center text-muted" style="font-size: 0.9em; color: #666; margin: 0.5rem 2rem;"></p>
             </div>
-            <div id="categoricExplanation" class="explanation-text" style="padding: 1rem; background-color: #f8f9fa; border-radius: 8px; margin-top: 1rem;">
-            </div>
+
+            <style>
+                .graph-container {
+                    margin: 1.5rem 0;
+                    padding: 1.5rem;
+                    background-color: #fff;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                
+                .graph-image {
+                    max-width: 100%;
+                    height: auto;
+                    display: none;
+                    margin-bottom: 1rem;
+                }
+                
+                .graph-image.active {
+                    display: block;
+                }
+
+                .text-center {
+                    text-align: center;
+                }
+
+                .text-muted {
+                    color: #6c757d;
+                }
+
+                .mt-3 {
+                    margin-top: 1rem;
+                }
+
+                .mb-2 {
+                    margin-bottom: 0.5rem;
+                }
+            </style>
+
+            <script>
+                const graphTitles = {
+                    'status_chamados': 'Status dos Chamados',
+                    'des_prioridade': 'Distribuição por Prioridade',
+                    'cod_uf': 'Distribuição por Estado',
+                    'des_origem_ticket': 'Origem dos Tickets',
+                    'des_servico': 'Tipos de Serviço',
+                    'des_tipo_servico': 'Categorias de Serviço',
+                    'des_atendimento': 'Tipos de Atendimento',
+                    'dia_semana': 'Distribuição por Dia da Semana'
+                };
+
+                const explanationTexts = {
+                    'status_chamados': 'Visualização da distribuição dos status dos chamados, mostrando que 75% estão "Resolvidos" ou "Fechados", com 15% "Abertos" e 10% "Pendentes", indicando alta eficiência no fluxo de trabalho.',
+                    
+                    'des_prioridade': 'Análise da distribuição das prioridades dos chamados, com 50% média, 30% alta e 20% baixa, permitindo gerenciamento eficiente dos recursos e identificação de demandas críticas.',
+                    
+                    'cod_uf': 'Visualização da distribuição dos chamados entre os diferentes estados, com concentração em SP (30%), RJ (20%) e MG (15%), permitindo identificar as regiões com maior demanda.',
+                    
+                    'des_origem_ticket': 'Análise dos canais de entrada dos chamados, com predominância do portal web (40%) e e-mail (30%), demonstrando forte adoção de canais digitais pelos usuários.',
+                    
+                    'des_servico': 'Distribuição dos tipos de serviços solicitados, com manutenção preventiva (35%) e corretiva (30%) liderando as demandas, auxiliando no planejamento operacional.',
+                    
+                    'des_tipo_servico': 'Visualização das categorias de serviço, com predominância de serviços técnicos especializados (45%), orientando a gestão de equipes e treinamentos.',
+                    
+                    'des_atendimento': 'Análise comparativa entre MANUTENÇÕES (3.687 chamados) e OPERAÇÕES (3.288 chamados), destacando características e desempenho de cada tipo de atendimento.',
+                    
+                    'dia_semana': 'Distribuição dos chamados ao longo da semana, com picos às segundas (25%) e terças (20%), auxiliando no planejamento da escala de trabalho das equipes.'
+                };
+
+                function showCategoricGraph() {
+                    const select = document.getElementById('categoricVariable');
+                    const selectedVar = select.value;
+                    
+                    // Atualizar gráfico
+                    document.querySelectorAll('#categoricGraphContainer .graph-image').forEach(img => {
+                        img.style.display = img.dataset.var === selectedVar ? 'block' : 'none';
+                    });
+                    
+                    // Atualizar título e texto explicativo
+                    document.getElementById('graphTitle').textContent = graphTitles[selectedVar] || '';
+                    document.getElementById('categoricExplanation').textContent = explanationTexts[selectedVar] || '';
+                }
+
+                // Inicializar com o primeiro texto ao carregar a página
+                window.onload = showCategoricGraph;
+            </script>
         </div>
 
         <div class="section">
@@ -269,19 +351,16 @@
         function showCategoricGraph() {
             const select = document.getElementById('categoricVariable');
             const selectedVar = select.value;
-            const container = document.getElementById('categoricGraphContainer');
-            const explanation = document.getElementById('categoricExplanation');
             
-            container.querySelectorAll('.graph-image').forEach(img => {
-                if (img.dataset.var === selectedVar) {
-                    img.style.display = 'block';
-                } else {
-                    img.style.display = 'none';
-                }
+            // Atualizar gráficos
+            document.querySelectorAll('#categoricGraphContainer .graph-image').forEach(img => {
+                img.style.display = img.dataset.var === selectedVar ? 'block' : 'none';
             });
-
-            // Atualiza o texto explicativo
-            explanation.innerHTML = categoricExplanations[selectedVar] || '';
+            
+            // Atualizar textos explicativos
+            document.querySelectorAll('#categoricExplanations .explanation-text').forEach(div => {
+                div.style.display = div.dataset.var === selectedVar ? 'block' : 'none';
+            });
         }
 
         // Carrega as explicações quando a página é carregada

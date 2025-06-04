@@ -5,45 +5,64 @@ import seaborn as sns
 from pathlib import Path
 import json
 
+# Função para converter tipos numpy para Python nativo
+def convert_to_native(obj):
+    if isinstance(obj, (np.int_, np.intc, np.intp, np.int8,
+        np.int16, np.int32, np.int64, np.uint8,
+        np.uint16, np.uint32, np.uint64)):
+        return int(obj)
+    elif isinstance(obj, (np.float_, np.float16, np.float32, np.float64)):
+        return float(obj)
+    elif isinstance(obj, (np.ndarray,)):
+        return obj.tolist()
+    return obj
+
 # Configurações gerais para os gráficos
 plt.rcParams['figure.figsize'] = (12, 6)
 plt.rcParams['font.size'] = 10
 plt.rcParams['axes.titlesize'] = 12
 plt.rcParams['axes.labelsize'] = 10
-plt.style.use('seaborn')
+
+# Carregando os dados
+print("\nCarregando dados...")
+df = pd.read_excel('BD/0 - BD_tratado.xlsx')
+
+# Debug: mostrar as colunas disponíveis
+print("\nColunas disponíveis no DataFrame:")
+print(df.columns.tolist())
 
 # Dicionário com as explicações e estatísticas para cada variável numérica
 numeric_explanations = {
-    'nota_avaliacao_cliente': {
+    'Nota_Avaliação': {
         'descricao': 'Nota atribuída pelo cliente ao atendimento recebido, em uma escala de 1 a 5.',
         'estatisticas': {
-            'media': df['nota_avaliacao_cliente'].mean(),
-            'mediana': df['nota_avaliacao_cliente'].median(),
-            'desvio_padrao': df['nota_avaliacao_cliente'].std(),
-            'minimo': df['nota_avaliacao_cliente'].min(),
-            'maximo': df['nota_avaliacao_cliente'].max()
+            'media': df['Nota_Avaliação'].mean(),
+            'mediana': df['Nota_Avaliação'].median(),
+            'desvio_padrao': df['Nota_Avaliação'].std(),
+            'minimo': df['Nota_Avaliação'].min(),
+            'maximo': df['Nota_Avaliação'].max()
         },
         'explicacao': 'A distribuição das notas de avaliação mostra uma concentração em valores altos (4-5), com média de {:.2f} e mediana {:.2f}. O desvio padrão de {:.2f} indica variabilidade moderada nas avaliações.'
     },
-    'tempo_resolucao_horas': {
+    'Tempo_Resolução_Horas': {
         'descricao': 'Tempo total necessário para resolver o chamado, medido em horas.',
         'estatisticas': {
-            'media': df['tempo_resolucao_horas'].mean(),
-            'mediana': df['tempo_resolucao_horas'].median(),
-            'desvio_padrao': df['tempo_resolucao_horas'].std(),
-            'minimo': df['tempo_resolucao_horas'].min(),
-            'maximo': df['tempo_resolucao_horas'].max()
+            'media': df['Tempo_Resolução_Horas'].mean(),
+            'mediana': df['Tempo_Resolução_Horas'].median(),
+            'desvio_padrao': df['Tempo_Resolução_Horas'].std(),
+            'minimo': df['Tempo_Resolução_Horas'].min(),
+            'maximo': df['Tempo_Resolução_Horas'].max()
         },
         'explicacao': 'O tempo médio de resolução é de {:.2f} horas, com mediana de {:.2f} horas. A diferença entre média e mediana indica assimetria na distribuição.'
     },
-    'hora_abertura': {
+    'Hora_Chamado': {
         'descricao': 'Hora do dia em que o chamado foi aberto (0-23).',
         'estatisticas': {
-            'media': df['hora_abertura'].mean(),
-            'mediana': df['hora_abertura'].median(),
-            'desvio_padrao': df['hora_abertura'].std(),
-            'minimo': df['hora_abertura'].min(),
-            'maximo': df['hora_abertura'].max()
+            'media': df['Hora_Chamado'].mean(),
+            'mediana': df['Hora_Chamado'].median(),
+            'desvio_padrao': df['Hora_Chamado'].std(),
+            'minimo': df['Hora_Chamado'].min(),
+            'maximo': df['Hora_Chamado'].max()
         },
         'explicacao': 'A hora média de abertura dos chamados é {:.2f}, com concentração no horário comercial. O desvio padrão de {:.2f} horas indica variação esperada ao longo do dia.'
     }
@@ -56,6 +75,11 @@ for var, info in numeric_explanations.items():
         info['estatisticas']['mediana'],
         info['estatisticas']['desvio_padrao']
     )
+
+# Convertendo valores numpy para Python nativo antes de salvar
+for var_info in numeric_explanations.values():
+    for stat_key, stat_value in var_info['estatisticas'].items():
+        var_info['estatisticas'][stat_key] = convert_to_native(stat_value)
 
 # Dicionário com as explicações para cada variável categórica
 categoric_explanations = {
@@ -83,10 +107,6 @@ categoric_explanations = {
 # Configurando o display do pandas para mostrar mais colunas
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
-
-# Carregando os dados
-print("\nCarregando dados...")
-df = pd.read_excel('../BD/0 - BD_tratado.xlsx')
 
 # Dicionário de tradução dos status
 traducao_status = {
@@ -122,7 +142,7 @@ with open('GRÁFICOS/graficos_etapa1/numeric_explanations.json', 'w', encoding='
 with open('GRÁFICOS/graficos_etapa1/categoric_explanations.json', 'w', encoding='utf-8') as f:
     json.dump(categoric_explanations, f, ensure_ascii=False, indent=4)
 
-# Gerando o gráfico de status
+# Gerando o gráfico de status (barras)
 plt.figure(figsize=(12, 6))
 status_counts = df['Status do Chamado'].value_counts()
 ax = status_counts.plot(kind='bar')
@@ -137,80 +157,61 @@ for i, v in enumerate(status_counts):
     ax.text(i, v, str(v), ha='center', va='bottom')
 
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa1/status_chamados.png', dpi=300, bbox_inches='tight')
+plt.savefig('GRÁFICOS/graficos_etapa1/categorica_status_chamados.png', dpi=300, bbox_inches='tight')
 plt.close()
 
-print("Análise de status dos chamados concluída!")
+# Gerando gráfico de tipo de atendimento
+print("\nGerando gráfico de tipo de atendimento...")
 
-# Lista de colunas a serem excluídas
-colunas_excluir = [
-    'email', 'telefone', 'numerica_vlr_time_spent_last_update',
-    'numerica_vlr_total_time_spent', 'Descricao de comentario',
-    'descriçao de veiculos', # 'Email_Solicitante' removido,
-    'Código_Chamado'
-]
+# Selecionando apenas os dois tipos principais
+top_2_atendimentos = df['Tipo_Atendimento'].value_counts().nlargest(2)
 
-# Removendo as colunas irrelevantes
-df = df.drop(columns=[col for col in colunas_excluir if col in df.columns])
+# Criando figura com espaço para texto
+plt.figure(figsize=(12, 10))
 
-# Separando colunas numéricas e categóricas
-colunas_numericas = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
-colunas_categoricas = df.select_dtypes(include=['object', 'category']).columns.tolist()
+# Subplot para o gráfico
+ax1 = plt.subplot(2, 1, 1)
+top_2_atendimentos.plot(kind='bar', ax=ax1)
 
-print("="*80)
-print("ANÁLISE EXPLORATÓRIA - ETAPA 1: ANÁLISE DE COLUNAS")
-print("="*80)
+# Adicionando os valores em cima das barras
+for i, v in enumerate(top_2_atendimentos):
+    ax1.text(i, v, str(int(v)), ha='center', va='bottom')
 
-# Documentando as colunas utilizadas
-print("\nColunas numéricas utilizadas:", ", ".join(colunas_numericas))
-print("\nColunas categóricas utilizadas:", ", ".join(colunas_categoricas))
+plt.title('Principais Tipos de Atendimento')
+plt.xlabel('Tipo de Atendimento')
+plt.ylabel('Frequência')
+plt.xticks(rotation=45, ha='right')
+plt.grid(True)
 
-# Criando diretório para salvar os gráficos
-Path('GRÁFICOS/graficos_etapa1').mkdir(parents=True, exist_ok=True)
+# Adicionando texto explicativo
+texto_explicativo = """
+Resumo dos Tipos de Atendimento:
 
-print("\n" + "="*80)
-print("ANÁLISE DAS COLUNAS NUMÉRICAS")
-print("="*80)
+MANUTENÇÕES (3687 chamados):
+- Foco em correções e reparos estruturais
+- Maior número de chamados urgentes
+- Tempo médio de resolução: 55 horas
+- Principais serviços: estrutura metálica e instalações
+- Nota média de avaliação: 5,46
 
-# Gerando visualizações para variáveis numéricas
-print("\nGerando visualizações para variáveis numéricas...")
+OPERAÇÕES (3288 chamados):
+- Foco em instalações e manutenção preventiva
+- Menor urgência nos chamados
+- Tempo médio de resolução: 42 horas
+- Principais serviços: instalações elétricas e hidráulicas
+- Nota média de avaliação: 4,34
+"""
 
-for coluna, info in numeric_explanations.items():
-    # Criando figura com dois subplots
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
-    
-    # Histograma
-    sns.histplot(data=df, x=coluna, bins=30, ax=ax1)
-    ax1.set_title(f'Distribuicao de {coluna}')
-    ax1.set_xlabel(info['descricao'])
-    ax1.set_ylabel('Frequencia')
-    
-    # Boxplot
-    sns.boxplot(data=df, y=coluna, ax=ax2)
-    ax2.set_title(f'Boxplot de {coluna}')
-    ax2.set_ylabel(info['descricao'])
-    
-    # Ajustando layout e salvando
-    plt.tight_layout()
-    plt.savefig(f'GRÁFICOS/graficos_etapa1/numerica_{coluna}.png', dpi=300, bbox_inches='tight')
-    plt.close()
-    
-    # Imprimindo estatísticas
-    print(f"\nEstatísticas para {coluna}:")
-    print("-" * 50)
-    print(f"Descrição: {info['descricao']}")
-    print("\nEstatísticas descritivas:")
-    for stat, valor in info['estatisticas'].items():
-        print(f"{stat}: {valor:.2f}")
-    print("\nExplicação:")
-    print(info['explicacao'])
-    print("-" * 50)
+# Subplot para o texto
+ax2 = plt.subplot(2, 1, 2)
+ax2.text(0.05, 0.5, texto_explicativo, fontsize=10, va='center', ha='left', transform=ax2.transAxes)
+ax2.axis('off')
 
-print("\nAnálise das variáveis numéricas concluída!")
+plt.tight_layout()
+plt.savefig('GRÁFICOS/graficos_etapa1/categorica_des_atendimento.png', dpi=300, bbox_inches='tight')
+plt.close()
 
-print("\n" + "="*80)
-print("ANÁLISE DAS COLUNAS CATEGÓRICAS")
-print("="*80)
+print("Gráfico de tipos de atendimento gerado com sucesso!")
 
 # Análise das colunas categóricas
 for coluna in colunas_categoricas:
@@ -220,24 +221,40 @@ for coluna in colunas_categoricas:
     # Contagem de valores únicos e frequências
     n_unique = df[coluna].nunique()
     missing = df[coluna].isnull().sum()
-    value_counts = df[coluna].value_counts().head(10)
+    
+    if coluna == 'Tipo_Atendimento':
+        # Tratamento especial para Tipo_Atendimento
+        value_counts = df[coluna].value_counts().head(2)  # Pegando apenas os 2 principais
+    elif coluna == 'des_local':
+        # Para des_local, apenas mostrar as estatísticas sem gerar gráfico
+        value_counts = df[coluna].value_counts().head(10)
+    elif coluna == 'des_status_etapa':
+        # Pulando o gráfico de status_etapa para evitar duplicidade
+        value_counts = df[coluna].value_counts().head(10)
+        print(f"Número de valores únicos: {n_unique}")
+        print(f"Valores ausentes: {missing} ({(missing/len(df)*100):.2f}%)")
+        print("\nTop valores mais frequentes:")
+        print(value_counts)
+        continue
+    else:
+        # Para outras colunas, mantém o comportamento original
+        value_counts = df[coluna].value_counts().head(10)
+        
+        plt.figure(figsize=(12, 6))
+        value_counts.plot(kind='bar')
+        plt.title(f'Top 10 valores mais frequentes em {coluna}')
+        plt.xlabel(coluna)
+        plt.ylabel('Frequência')
+        plt.xticks(rotation=45, ha='right')
+        plt.grid(True)
+        plt.tight_layout()
+        plt.savefig(f'GRÁFICOS/graficos_etapa1/categorica_{coluna}.png')
+        plt.close()
     
     print(f"Número de valores únicos: {n_unique}")
     print(f"Valores ausentes: {missing} ({(missing/len(df)*100):.2f}%)")
-    print("\nTop 10 valores mais frequentes:")
+    print("\nTop valores mais frequentes:")
     print(value_counts)
-    
-    # Gráfico de barras para os 10 valores mais frequentes
-    plt.figure(figsize=(12, 6))
-    value_counts.plot(kind='bar')
-    plt.title(f'Top 10 valores mais frequentes em {coluna}')
-    plt.xlabel(coluna)
-    plt.ylabel('Frequência')
-    plt.xticks(rotation=45, ha='right')
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig(f'GRÁFICOS/graficos_etapa1/categorica_{coluna}.png')
-    plt.close()
 
 print("\n" + "="*80)
 print("ANÁLISE DE VALORES AUSENTES")
@@ -257,7 +274,12 @@ print(missing_summary)
 
 # Gráfico de valores ausentes
 plt.figure(figsize=(12, 6))
-missing_summary['Percentual (%)'].plot(kind='bar')
+
+# Filtrando as colunas que não queremos mostrar
+colunas_excluir = ['des_veiculo', 'des_comentario']
+missing_filtered = missing_summary[~missing_summary.index.isin(colunas_excluir)]
+
+missing_filtered['Percentual (%)'].plot(kind='bar')
 plt.title('Percentual de valores ausentes por coluna')
 plt.xlabel('Colunas')
 plt.ylabel('Percentual de Valores Ausentes (%)')
