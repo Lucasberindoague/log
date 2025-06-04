@@ -80,7 +80,7 @@ plt.xlabel('Nota')
 plt.ylabel('Quantidade de Avaliações')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa5/barras_distribuicao_notas.png')
+plt.savefig('GRÁFICOS/graficos_etapa5/barras_distribuicao_notas.png')
 plt.close()
 
 # 5. Gráfico de pizza da distribuição das notas
@@ -88,7 +88,7 @@ plt.figure(figsize=(10, 10))
 plt.pie(dist_notas, labels=[f'Nota {i}' for i in dist_notas.index], autopct='%1.1f%%')
 plt.title('Distribuição Percentual das Avaliações')
 plt.axis('equal')
-plt.savefig('graficos_etapa5/pizza_distribuicao_notas.png')
+plt.savefig('GRÁFICOS/graficos_etapa5/pizza_distribuicao_notas.png')
 plt.close()
 
 # 6. Boxplot das avaliações
@@ -98,7 +98,7 @@ plt.title('Boxplot das Avaliações')
 plt.ylabel('Nota')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa5/boxplot_avaliacoes.png')
+plt.savefig('GRÁFICOS/graficos_etapa5/boxplot_avaliacoes.png')
 plt.close()
 
 # 7. Gráfico de densidade
@@ -109,7 +109,7 @@ plt.xlabel('Nota')
 plt.ylabel('Densidade')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa5/densidade_avaliacoes.png')
+plt.savefig('GRÁFICOS/graficos_etapa5/densidade_avaliacoes.png')
 plt.close()
 
 # 8. Avaliação média por estado
@@ -126,7 +126,7 @@ plt.axhline(y=df_valid['num_avaliacao'].mean(), color='r', linestyle='--', label
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa5/barras_avaliacao_media_estado.png')
+plt.savefig('GRÁFICOS/graficos_etapa5/barras_avaliacao_media_estado.png')
 plt.close()
 
 # 9. Avaliação média por tipo de serviço
@@ -145,7 +145,7 @@ plt.legend()
 plt.xticks(rotation=45, ha='right')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa5/barras_avaliacao_media_servico.png')
+plt.savefig('GRÁFICOS/graficos_etapa5/barras_avaliacao_media_servico.png')
 plt.close()
 
 # 10. Avaliação média por prioridade
@@ -162,7 +162,7 @@ plt.axhline(y=df_valid['num_avaliacao'].mean(), color='r', linestyle='--', label
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa5/barras_avaliacao_media_prioridade.png')
+plt.savefig('GRÁFICOS/graficos_etapa5/barras_avaliacao_media_prioridade.png')
 plt.close()
 
 # 11. Correlação entre tempo de resolução e avaliação
@@ -176,7 +176,7 @@ plt.xlabel('Tempo de Resolução (dias)')
 plt.ylabel('Avaliação')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa5/dispersao_tempo_avaliacao.png')
+plt.savefig('GRÁFICOS/graficos_etapa5/dispersao_tempo_avaliacao.png')
 plt.close()
 
 # 12. Evolução temporal das avaliações
@@ -191,7 +191,7 @@ plt.ylabel('Avaliação Média')
 plt.grid(True)
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig('graficos_etapa5/linha_evolucao_avaliacoes.png')
+plt.savefig('GRÁFICOS/graficos_etapa5/linha_evolucao_avaliacoes.png')
 plt.close()
 
 # 13. Heatmap de avaliação por estado e tipo de serviço
@@ -209,7 +209,7 @@ plt.title('Heatmap: Avaliação Média por Estado e Tipo de Serviço')
 plt.xlabel('Tipo de Serviço')
 plt.ylabel('Estado')
 plt.tight_layout()
-plt.savefig('graficos_etapa5/heatmap_avaliacao_estado_servico.png')
+plt.savefig('GRÁFICOS/graficos_etapa5/heatmap_avaliacao_estado_servico.png')
 plt.close()
 
 # 14. Análise de comentários
@@ -223,7 +223,7 @@ plt.xlabel('Nota')
 plt.ylabel('Quantidade de Comentários')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa5/barras_comentarios_por_nota.png')
+plt.savefig('GRÁFICOS/graficos_etapa5/barras_comentarios_por_nota.png')
 plt.close()
 
 # Adicionando análise dos fatores de influência

@@ -55,7 +55,7 @@ plt.tight_layout()
 Path('graficos_etapa2').mkdir(exist_ok=True)
 
 # Salvando o gráfico
-plt.savefig('graficos_etapa2/volume_mensal.png', dpi=300, bbox_inches='tight')
+plt.savefig('GRÁFICOS/graficos_etapa2/volume_mensal.png', dpi=300, bbox_inches='tight')
 plt.close()
 
 # Mantendo os outros gráficos da análise temporal
@@ -71,7 +71,7 @@ plt.xlabel('Dia da Semana')
 plt.ylabel('Quantidade de Chamados')
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig('graficos_etapa2/volume_dia_semana.png')
+plt.savefig('GRÁFICOS/graficos_etapa2/volume_dia_semana.png')
 plt.close()
 
 # Análise do tempo de resolução
@@ -82,5 +82,5 @@ plt.title('Distribuição do Tempo de Resolução dos Chamados')
 plt.xlabel('Tempo de Resolução (horas)')
 plt.ylabel('Frequência')
 plt.tight_layout()
-plt.savefig('graficos_etapa2/tempo_resolucao.png')
+plt.savefig('GRÁFICOS/graficos_etapa2/tempo_resolucao.png')
 plt.close() 

@@ -60,7 +60,7 @@ plt.ylabel('Quantidade de Chamados')
 plt.xticks(rotation=45, ha='right')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa6/barras_top_10_tipos_servico.png')
+plt.savefig('GRÁFICOS/graficos_etapa6/barras_top_10_tipos_servico.png')
 plt.close()
 
 # 2. Análise por Assunto
@@ -81,7 +81,7 @@ plt.ylabel('Quantidade de Chamados')
 plt.xticks(rotation=45, ha='right')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa6/barras_top_10_assuntos.png')
+plt.savefig('GRÁFICOS/graficos_etapa6/barras_top_10_assuntos.png')
 plt.close()
 
 # 3. Análise do Tempo Médio de Resolução por Categoria
@@ -100,7 +100,7 @@ plt.ylabel('Tempo Médio (dias)')
 plt.xticks(rotation=45, ha='right')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa6/barras_tempo_medio_por_servico.png')
+plt.savefig('GRÁFICOS/graficos_etapa6/barras_tempo_medio_por_servico.png')
 plt.close()
 
 # 4. Análise da Avaliação Média por Categoria
@@ -124,7 +124,7 @@ plt.legend()
 plt.xticks(rotation=45, ha='right')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa6/barras_avaliacao_media_por_servico.png')
+plt.savefig('GRÁFICOS/graficos_etapa6/barras_avaliacao_media_por_servico.png')
 plt.close()
 
 # 5. Análise Cruzada: Tipo de Serviço por Estado
@@ -139,7 +139,7 @@ plt.title('Distribuição dos 10 Tipos de Serviço Mais Frequentes por Estado (%
 plt.xlabel('Estado')
 plt.ylabel('Tipo de Serviço')
 plt.tight_layout()
-plt.savefig('graficos_etapa6/heatmap_servico_estado.png')
+plt.savefig('GRÁFICOS/graficos_etapa6/heatmap_servico_estado.png')
 plt.close()
 
 # 6. Análise de Correlação: Tempo de Resolução vs Volume
@@ -156,7 +156,7 @@ plt.xlabel('Volume de Chamados')
 plt.ylabel('Tempo Médio (dias)')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa6/dispersao_correlacao_volume_tempo.png')
+plt.savefig('GRÁFICOS/graficos_etapa6/dispersao_correlacao_volume_tempo.png')
 plt.close()
 
 # 7. Análise de Sazonalidade por Categoria
@@ -172,7 +172,7 @@ plt.title('Sazonalidade dos 10 Tipos de Serviço Mais Frequentes (%)')
 plt.xlabel('Mês')
 plt.ylabel('Tipo de Serviço')
 plt.tight_layout()
-plt.savefig('graficos_etapa6/heatmap_sazonalidade_servico.png')
+plt.savefig('GRÁFICOS/graficos_etapa6/heatmap_sazonalidade_servico.png')
 plt.close()
 
 # 8. Análise de Complexidade por Categoria
@@ -195,7 +195,7 @@ plt.xlabel('Número de Assuntos Diferentes')
 plt.ylabel('Tempo Médio de Resolução (dias)')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa6/dispersao_complexidade_servico.png')
+plt.savefig('GRÁFICOS/graficos_etapa6/dispersao_complexidade_servico.png')
 plt.close()
 
 # Conclusões da Análise de Categorias

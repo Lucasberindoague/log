@@ -54,7 +54,7 @@ plt.title('Correlação de Chamados por Condomínio', fontsize=16, pad=20)
 plt.xticks(rotation=45, ha='right')
 plt.yticks(rotation=0)
 plt.tight_layout()
-plt.savefig('graficos_etapa8/correlacao_condominios.png', dpi=300, bbox_inches='tight', pad_inches=0.5)
+plt.savefig('GRÁFICOS/graficos_etapa8/correlacao_condominios.png', dpi=300, bbox_inches='tight', pad_inches=0.5)
 plt.close()
 
 # Documentando as colunas utilizadas
@@ -88,7 +88,7 @@ plt.figure(figsize=(10, 8))
 sns.heatmap(matriz_correlacao, annot=True, cmap='RdYlBu', center=0)
 plt.title('Matriz de Correlação entre Variáveis Numéricas')
 plt.tight_layout()
-plt.savefig('graficos_etapa8/matriz_correlacao.png')
+plt.savefig('GRÁFICOS/graficos_etapa8/matriz_correlacao.png')
 plt.close()
 
 # 2. Scatter Plot: Tempo de Resolução vs Avaliação
@@ -100,7 +100,7 @@ plt.xlabel('Tempo de Resolução (dias)')
 plt.ylabel('Avaliação do Cliente')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa8/scatter_tempo_avaliacao.png')
+plt.savefig('GRÁFICOS/graficos_etapa8/scatter_tempo_avaliacao.png')
 plt.close()
 
 # 3. Análise por Estado
@@ -120,7 +120,7 @@ plt.ylabel('Tempo de Resolução (dias)')
 plt.xticks(rotation=45)
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa8/boxplot_tempo_estado.png')
+plt.savefig('GRÁFICOS/graficos_etapa8/boxplot_tempo_estado.png')
 plt.close()
 
 # 4. Análise por Tipo de Serviço
@@ -144,7 +144,7 @@ plt.ylabel('Avaliação')
 plt.xticks(rotation=45, ha='right')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa8/boxplot_avaliacao_servico.png')
+plt.savefig('GRÁFICOS/graficos_etapa8/boxplot_avaliacao_servico.png')
 plt.close()
 
 # 5. Análise Temporal
@@ -163,7 +163,7 @@ plt.ylabel('Valor')
 plt.legend(['Tempo Médio (dias)', 'Avaliação Média'])
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa8/evolucao_temporal.png')
+plt.savefig('GRÁFICOS/graficos_etapa8/evolucao_temporal.png')
 plt.close()
 
 # 6. Análise de Clusters (K-means)
@@ -193,7 +193,7 @@ plt.xlabel('Tempo de Resolução (dias)')
 plt.ylabel('Avaliação do Cliente')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa8/clusters.png')
+plt.savefig('GRÁFICOS/graficos_etapa8/clusters.png')
 plt.close()
 
 # Verificando sazonalidade

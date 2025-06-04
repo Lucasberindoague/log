@@ -72,7 +72,7 @@ plt.ylabel('Frequência')
 plt.xlim(0, 200)
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa4/histograma_tempo_resolucao.png')
+plt.savefig('GRÁFICOS/graficos_etapa4/histograma_tempo_resolucao.png')
 plt.close()
 
 # 3. Boxplot do Tempo de Resolução
@@ -82,7 +82,7 @@ plt.title('Boxplot do Tempo de Resolução')
 plt.xlabel('Tempo (dias)')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa4/boxplot_tempo_resolucao.png')
+plt.savefig('GRÁFICOS/graficos_etapa4/boxplot_tempo_resolucao.png')
 plt.close()
 
 # 4. Gráfico de Densidade
@@ -93,7 +93,7 @@ plt.xlabel('Tempo (dias)')
 plt.ylabel('Densidade')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa4/densidade_tempo_resolucao.png')
+plt.savefig('GRÁFICOS/graficos_etapa4/densidade_tempo_resolucao.png')
 plt.close()
 
 # 5. Tempo Médio por Estado
@@ -109,7 +109,7 @@ plt.ylabel('Tempo Médio (dias)')
 plt.xticks(rotation=45)
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa4/barras_tempo_medio_por_estado.png')
+plt.savefig('GRÁFICOS/graficos_etapa4/barras_tempo_medio_por_estado.png')
 plt.close()
 
 # 6. Tempo Médio por Tipo de Serviço
@@ -126,7 +126,7 @@ plt.ylabel('Tempo Médio (dias)')
 plt.xticks(rotation=45, ha='right')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa4/barras_tempo_medio_por_servico.png')
+plt.savefig('GRÁFICOS/graficos_etapa4/barras_tempo_medio_por_servico.png')
 plt.close()
 
 # 7. Tempo Médio por Prioridade
@@ -142,7 +142,7 @@ plt.ylabel('Tempo Médio (dias)')
 plt.xticks(rotation=45)
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa4/barras_tempo_medio_por_prioridade.png')
+plt.savefig('GRÁFICOS/graficos_etapa4/barras_tempo_medio_por_prioridade.png')
 plt.close()
 
 # 8. Boxplot por Prioridade
@@ -153,7 +153,7 @@ plt.xlabel('Prioridade')
 plt.ylabel('Tempo (dias)')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa4/boxplot_tempo_por_prioridade.png')
+plt.savefig('GRÁFICOS/graficos_etapa4/boxplot_tempo_por_prioridade.png')
 plt.close()
 
 # 9. Evolução do Tempo de Resolução ao Longo do Tempo
@@ -168,7 +168,7 @@ plt.ylabel('Tempo Médio (dias)')
 plt.grid(True)
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig('graficos_etapa4/linha_evolucao_tempo_resolucao.png')
+plt.savefig('GRÁFICOS/graficos_etapa4/linha_evolucao_tempo_resolucao.png')
 plt.close()
 
 # 10. Heatmap de Tempo por Estado e Tipo de Serviço
@@ -186,7 +186,7 @@ plt.title('Heatmap: Tempo Médio de Resolução por Estado e Tipo de Serviço')
 plt.xlabel('Tipo de Serviço')
 plt.ylabel('Estado')
 plt.tight_layout()
-plt.savefig('graficos_etapa4/heatmap_tempo_estado_servico.png')
+plt.savefig('GRÁFICOS/graficos_etapa4/heatmap_tempo_estado_servico.png')
 plt.close()
 
 # 11. Análise de Outliers
@@ -206,7 +206,7 @@ plt.figure(figsize=(10, 6))
 status_outliers.plot(kind='pie', autopct='%1.1f%%')
 plt.title('Distribuição dos Outliers por Status')
 plt.axis('equal')
-plt.savefig('graficos_etapa4/pizza_outliers_por_status.png')
+plt.savefig('GRÁFICOS/graficos_etapa4/pizza_outliers_por_status.png')
 plt.close()
 
 # Conclusões da Análise do Tempo de Resolução

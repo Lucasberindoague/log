@@ -101,7 +101,7 @@ plt.ylabel('Quantidade de Chamados')
 plt.xticks(rotation=45)
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa3/barras_chamados_por_estado.png')
+plt.savefig('GRÁFICOS/graficos_etapa3/barras_chamados_por_estado.png')
 plt.close()
 
 # Gráfico de pizza dos chamados por estado
@@ -109,7 +109,7 @@ plt.figure(figsize=(10, 10))
 plt.pie(chamados_por_estado, labels=chamados_por_estado.index, autopct='%1.1f%%')
 plt.title('Distribuição Percentual de Chamados por Estado')
 plt.axis('equal')
-plt.savefig('graficos_etapa3/pizza_chamados_por_estado.png')
+plt.savefig('GRÁFICOS/graficos_etapa3/pizza_chamados_por_estado.png')
 plt.close()
 
 # 2. Análise por Condomínio
@@ -124,7 +124,7 @@ plt.ylabel('Quantidade de Chamados')
 plt.xticks(rotation=45, ha='right')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa3/barras_top_10_condominios.png')
+plt.savefig('GRÁFICOS/graficos_etapa3/barras_top_10_condominios.png')
 plt.close()
 
 # 3. Análise do Tempo de Resolução por Estado
@@ -141,7 +141,7 @@ plt.ylabel('Tempo Médio (dias)')
 plt.xticks(rotation=45)
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa3/barras_tempo_medio_por_estado.png')
+plt.savefig('GRÁFICOS/graficos_etapa3/barras_tempo_medio_por_estado.png')
 plt.close()
 
 # Boxplot do tempo de resolução por estado
@@ -153,7 +153,7 @@ plt.ylabel('Tempo de Resolução (dias)')
 plt.xticks(rotation=45)
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa3/boxplot_tempo_por_estado.png')
+plt.savefig('GRÁFICOS/graficos_etapa3/boxplot_tempo_por_estado.png')
 plt.close()
 
 # 4. Análise do Tempo de Resolução por Condomínio
@@ -184,7 +184,7 @@ ax2.tick_params(axis='x', rotation=45)
 ax2.grid(True)
 
 plt.tight_layout()
-plt.savefig('graficos_etapa3/barras_tempo_medio_condominios_extremos.png')
+plt.savefig('GRÁFICOS/graficos_etapa3/barras_tempo_medio_condominios_extremos.png')
 plt.close()
 
 # 5. Heatmap do Tempo de Resolução por Estado e Mês
@@ -202,7 +202,7 @@ plt.title('Heatmap: Tempo Médio de Resolução por Estado e Mês')
 plt.xlabel('Mês')
 plt.ylabel('Estado')
 plt.tight_layout()
-plt.savefig('graficos_etapa3/heatmap_tempo_estado_mes.png')
+plt.savefig('GRÁFICOS/graficos_etapa3/heatmap_tempo_estado_mes.png')
 plt.close()
 
 # 6. Análise de Volume por Estado e Mês
@@ -220,7 +220,7 @@ plt.title('Heatmap: Volume de Chamados por Estado e Mês')
 plt.xlabel('Mês')
 plt.ylabel('Estado')
 plt.tight_layout()
-plt.savefig('graficos_etapa3/heatmap_volume_estado_mes.png')
+plt.savefig('GRÁFICOS/graficos_etapa3/heatmap_volume_estado_mes.png')
 plt.close()
 
 # 7. Análise de Eficiência Regional
@@ -243,7 +243,7 @@ plt.xlabel('Tempo Médio de Resolução (dias)')
 plt.ylabel('Taxa de Resolução (%)')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('graficos_etapa3/dispersao_eficiencia_regional.png')
+plt.savefig('GRÁFICOS/graficos_etapa3/dispersao_eficiencia_regional.png')
 plt.close()
 
 # Análise específica de Minas Gerais
