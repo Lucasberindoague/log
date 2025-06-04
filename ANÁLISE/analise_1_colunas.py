@@ -146,7 +146,7 @@ print("Análise de status dos chamados concluída!")
 colunas_excluir = [
     'email', 'telefone', 'numerica_vlr_time_spent_last_update',
     'numerica_vlr_total_time_spent', 'Descricao de comentario',
-    'descriçao de veiculos', 'Email_Solicitante',
+    'descriçao de veiculos', # 'Email_Solicitante' removido,
     'Código_Chamado'
 ]
 
