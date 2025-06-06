@@ -376,3 +376,25 @@ plt.savefig('GRÁFICOS/graficos_etapa1/pizza_distribuicao_clientes.png', dpi=300
 plt.close()
 
 print("Gráfico de distribuição de chamados por cliente gerado com sucesso!")
+
+# Gerando gráfico de distribuição dos tipos de serviço
+print("\nGerando gráfico de distribuição dos tipos de serviço...")
+servicos = df['Categoria_Serviço'].value_counts()
+
+plt.figure(figsize=(12, 6))
+servicos.plot(kind='bar')
+plt.title('Distribuição dos Tipos de Serviço')
+plt.xlabel('Categoria de Serviço')
+plt.ylabel('Quantidade de Chamados')
+plt.xticks(rotation=45, ha='right')
+plt.grid(True)
+
+# Adicionando os valores nas barras
+for i, v in enumerate(servicos):
+    plt.text(i, v, str(v), ha='center', va='bottom')
+
+plt.tight_layout()
+plt.savefig('GRÁFICOS/graficos_etapa1/categorica_Tipo_Serviço.png', dpi=300, bbox_inches='tight')
+plt.close()
+
+print("Gráfico de distribuição dos tipos de serviço gerado com sucesso!")
