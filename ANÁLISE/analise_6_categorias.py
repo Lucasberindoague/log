@@ -175,29 +175,6 @@ plt.tight_layout()
 plt.savefig('GRÁFICOS/graficos_etapa6/heatmap_sazonalidade_servico.png')
 plt.close()
 
-# 8. Análise de Complexidade por Categoria
-print("\nAnalisando complexidade por categoria...")
-complexidade = df.groupby('Categoria_Serviço').agg({
-    'tempo_resolucao_dias': ['mean', 'std'],
-    'Assunto': 'nunique',
-    'Estado_UF': 'nunique'
-}).round(2)
-
-complexidade.columns = ['tempo_medio', 'tempo_std', 'num_assuntos', 'num_estados']
-complexidade = complexidade.sort_values('tempo_medio', ascending=False)
-
-# Gráfico de dispersão da complexidade
-plt.figure(figsize=(12, 6))
-plt.scatter(complexidade['num_assuntos'], complexidade['tempo_medio'], 
-           s=complexidade['num_estados']*50, alpha=0.5)
-plt.title('Complexidade por Tipo de Serviço')
-plt.xlabel('Número de Assuntos Diferentes')
-plt.ylabel('Tempo Médio de Resolução (dias)')
-plt.grid(True)
-plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa6/dispersao_complexidade_servico.png')
-plt.close()
-
 # Conclusões da Análise de Categorias
 print("\n" + "="*80)
 print("CONCLUSÕES DA ANÁLISE DE CATEGORIAS")
@@ -284,9 +261,6 @@ print("""
     servico_mes.sum().idxmax(),
     servico_mes.sum().idxmin(),
     servico_mes_pct.std().nlargest(3).index.tolist(),
-    complexidade.index[0],
-    complexidade.index[-1],
-    correlacao_volume_tempo['volume'].corr(correlacao_volume_tempo['tempo_medio']),
     "Existe grande concentração em poucos tipos de serviço" if tipo_servico_pct.head(3).sum() > 50 else "Há boa distribuição entre os tipos de serviço",
     "Tempo de resolução varia significativamente entre categorias" if tempo_medio_servico['mean'].std() > 10 else "Tempo de resolução é relativamente uniforme entre categorias",
     "Há clara sazonalidade em algumas categorias" if servico_mes_pct.std().max() > 5 else "Não há padrão sazonal significativo",

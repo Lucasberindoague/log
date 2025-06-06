@@ -43,18 +43,21 @@ matriz_correlacao_condominios = correlacao_condominios.corr()
 # Gerar o heatmap
 plt.figure(figsize=(24, 20))
 sns.heatmap(matriz_correlacao_condominios, 
-            cmap='RdBu_r',
+            cmap='coolwarm',
             center=0,
-            annot=False,
+            annot=True,
             fmt='.2f',
             square=True,
             xticklabels=True,
-            yticklabels=True)
+            yticklabels=True,
+            vmin=-1,
+            vmax=1,
+            cbar_kws={'label': 'Coeficiente de Correlação'})
 plt.title('Correlação de Chamados por Condomínio', fontsize=16, pad=20)
 plt.xticks(rotation=45, ha='right')
 plt.yticks(rotation=0)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa8/correlacao_condominios.png', dpi=300, bbox_inches='tight', pad_inches=0.5)
+plt.savefig('../GRÁFICOS/graficos_etapa8/correlacao_condominios.png', dpi=300, bbox_inches='tight', pad_inches=0.5)
 plt.close()
 
 # Documentando as colunas utilizadas
@@ -77,7 +80,7 @@ df['tempo_resolucao_dias'] = (df['Data_Resolução'] - df['Data_Criação']).dt.
 df_valid = df[df['Nota_Avaliação'].between(1, 5)].copy()
 
 # Criando diretório para gráficos
-Path('graficos_etapa8').mkdir(exist_ok=True)
+Path('../GRÁFICOS/graficos_etapa8').mkdir(parents=True, exist_ok=True)
 
 # 1. Matriz de Correlação entre Variáveis Numéricas
 print("\nCalculando correlações entre variáveis numéricas...")
@@ -88,7 +91,7 @@ plt.figure(figsize=(10, 8))
 sns.heatmap(matriz_correlacao, annot=True, cmap='RdYlBu', center=0)
 plt.title('Matriz de Correlação entre Variáveis Numéricas')
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa8/matriz_correlacao.png')
+plt.savefig('../GRÁFICOS/graficos_etapa8/matriz_correlacao.png')
 plt.close()
 
 # 2. Scatter Plot: Tempo de Resolução vs Avaliação
@@ -100,7 +103,7 @@ plt.xlabel('Tempo de Resolução (dias)')
 plt.ylabel('Avaliação do Cliente')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa8/scatter_tempo_avaliacao.png')
+plt.savefig('../GRÁFICOS/graficos_etapa8/scatter_tempo_avaliacao.png')
 plt.close()
 
 # 3. Análise por Estado
@@ -120,7 +123,7 @@ plt.ylabel('Tempo de Resolução (dias)')
 plt.xticks(rotation=45)
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa8/boxplot_tempo_estado.png')
+plt.savefig('../GRÁFICOS/graficos_etapa8/boxplot_tempo_estado.png')
 plt.close()
 
 # 4. Análise por Tipo de Serviço
@@ -144,7 +147,7 @@ plt.ylabel('Avaliação')
 plt.xticks(rotation=45, ha='right')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa8/boxplot_avaliacao_servico.png')
+plt.savefig('../GRÁFICOS/graficos_etapa8/boxplot_avaliacao_servico.png')
 plt.close()
 
 # 5. Análise Temporal
@@ -163,7 +166,7 @@ plt.ylabel('Valor')
 plt.legend(['Tempo Médio (dias)', 'Avaliação Média'])
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa8/evolucao_temporal.png')
+plt.savefig('../GRÁFICOS/graficos_etapa8/evolucao_temporal.png')
 plt.close()
 
 # 6. Análise de Clusters (K-means)
@@ -193,7 +196,7 @@ plt.xlabel('Tempo de Resolução (dias)')
 plt.ylabel('Avaliação do Cliente')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa8/clusters.png')
+plt.savefig('../GRÁFICOS/graficos_etapa8/clusters.png')
 plt.close()
 
 # Verificando sazonalidade
@@ -207,41 +210,40 @@ print("="*80)
 print("""
 # RESUMO DA ANÁLISE DE CORRELAÇÕES E PADRÕES
 
-## 1. Correlações Principais
-- Correlação Tempo x Avaliação: {:.3f}
+## 1. Correlação entre Tempo e Avaliação
+- Coeficiente de correlação: {:.2f}
 - Interpretação: {}
 
-## 2. Padrões por Estado
-- Estado com maior variabilidade no tempo: {} (std: {:.1f} dias)
-- Estado com maior consistência nas avaliações: {} (std: {:.2f})
-- Correlação entre volume e tempo médio: {}
+## 2. Análise por Estado
+- Estado com maior variabilidade: {} (desvio padrão: {:.2f} dias)
+- Estado mais consistente: {} (desvio padrão: {:.2f})
+- Relação volume vs tempo: {}
 
-## 3. Padrões por Tipo de Serviço
-- Serviço com melhor relação tempo/avaliação: {}
-- Serviço com pior relação tempo/avaliação: {}
-- {:.1f}% dos serviços têm padrão consistente
+## 3. Análise por Tipo de Serviço
+- Serviço mais eficiente: {}
+- Serviço menos eficiente: {}
+- {:.1f}% dos serviços têm avaliação média acima de 4.0
 
-## 4. Padrões Temporais
-- Tendência no tempo de resolução: {}
-- Tendência nas avaliações: {}
+## 4. Análise Temporal
+- Tendência do tempo de resolução: {}
+- Tendência da avaliação: {}
 - Sazonalidade identificada: {}
 
 ## 5. Análise de Clusters
-- Número de clusters identificados: {}
-- Características do cluster principal: {}
-- {:.1f}% dos chamados no cluster mais eficiente
+- Número de clusters: {}
+- Cluster predominante: {}
+- {:.1f}% dos chamados no cluster principal
 
-## 6. Insights Principais
-- {}
+## 6. Principais Insights
 - {}
 - {}
 
 ## 7. Recomendações
-1. {}
-2. {}
-3. {}
-4. {}
-5. {}
+1. Investigar causas da variabilidade em {}
+2. Replicar práticas do serviço {}
+3. Estabelecer meta de tempo máximo de {} dias
+4. Monitorar sazonalidade em {}
+5. Priorizar melhorias nos clusters de baixo desempenho
 """.format(
     matriz_correlacao.iloc[0,1],
     "Correlação negativa significativa" if matriz_correlacao.iloc[0,1] < -0.3 else "Correlação positiva significativa" if matriz_correlacao.iloc[0,1] > 0.3 else "Correlação fraca",
@@ -261,10 +263,8 @@ print("""
     (X['cluster'] == 0).mean() * 100,
     "Existe correlação significativa entre tempo e avaliação" if abs(matriz_correlacao.iloc[0,1]) > 0.3 else "Não há correlação forte entre tempo e avaliação",
     "Há padrões claros por estado" if estado_stats[('tempo_resolucao_dias', 'std')].std() > 10 else "Comportamento uniforme entre estados",
-    "Identificados grupos distintos de desempenho" if len(np.unique(X['cluster'])) >= 3 else "Comportamento homogêneo dos chamados",
-    "Estabelecer metas específicas por cluster de desempenho",
-    "Padronizar processos nos estados com maior variabilidade",
-    "Implementar melhorias baseadas nos serviços melhor avaliados",
-    "Criar sistema de monitoramento de padrões temporais",
-    "Desenvolver indicadores compostos de eficiência"
+    estado_stats.index[estado_stats[('tempo_resolucao_dias', 'std')].argmax()],
+    servico_stats.index[(servico_stats[('tempo_resolucao_dias', 'mean')] / servico_stats[('Nota_Avaliação', 'mean')]).argmin()],
+    estado_stats[('tempo_resolucao_dias', 'mean')].quantile(0.75),
+    servico_mes_pct.std().nlargest(3).index.tolist() if 'servico_mes_pct' in locals() else []
 )) 

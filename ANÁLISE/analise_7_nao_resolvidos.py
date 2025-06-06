@@ -78,7 +78,7 @@ plt.xlabel('Estado')
 plt.ylabel('Quantidade de Chamados')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa7/barras_nao_resolvidos_por_estado.png')
+plt.savefig('../GRÁFICOS/graficos_etapa7/barras_nao_resolvidos_por_estado.png')
 plt.close()
 
 # Gráfico de pizza da distribuição por estado
@@ -86,7 +86,7 @@ plt.figure(figsize=(10, 10))
 plt.pie(estado_nao_resolvidos_pct, labels=estado_nao_resolvidos.index, autopct='%1.1f%%')
 plt.title('Distribuição Percentual de Chamados Não Resolvidos por Estado')
 plt.axis('equal')
-plt.savefig('GRÁFICOS/graficos_etapa7/pizza_nao_resolvidos_por_estado.png')
+plt.savefig('../GRÁFICOS/graficos_etapa7/pizza_nao_resolvidos_por_estado.png')
 plt.close()
 
 # 4. Distribuição por Tipo de Serviço
@@ -102,7 +102,7 @@ plt.ylabel('Quantidade de Chamados')
 plt.xticks(rotation=45, ha='right')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa7/barras_nao_resolvidos_por_servico.png')
+plt.savefig('../GRÁFICOS/graficos_etapa7/barras_nao_resolvidos_por_servico.png')
 plt.close()
 
 # 5. Distribuição por Prioridade
@@ -117,12 +117,14 @@ plt.xlabel('Prioridade')
 plt.ylabel('Quantidade de Chamados')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa7/barras_nao_resolvidos_por_prioridade.png')
+plt.savefig('../GRÁFICOS/graficos_etapa7/barras_nao_resolvidos_por_prioridade.png')
 plt.close()
 
 # 6. Tempo Médio em Aberto por Estado
 print("\nAnalisando tempo médio em aberto por estado...")
-tempo_medio_estado = df_nao_resolvidos.groupby('Estado_UF')['tempo_em_aberto_dias'].agg(['mean', 'count']).round(2)
+# Excluindo a categoria "X"
+df_nao_resolvidos_filtered = df_nao_resolvidos[df_nao_resolvidos['Estado_UF'] != 'X']
+tempo_medio_estado = df_nao_resolvidos_filtered.groupby('Estado_UF')['tempo_em_aberto_dias'].agg(['mean', 'count']).round(2)
 tempo_medio_estado = tempo_medio_estado.sort_values('mean', ascending=False)
 
 plt.figure(figsize=(12, 6))
@@ -132,12 +134,14 @@ plt.xlabel('Estado')
 plt.ylabel('Tempo Médio (dias)')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa7/barras_tempo_medio_aberto_estado.png')
+plt.savefig('../GRÁFICOS/graficos_etapa7/barras_tempo_medio_aberto_estado.png')
 plt.close()
 
 # 7. Tempo Médio em Aberto por Tipo de Serviço
 print("\nAnalisando tempo médio em aberto por tipo de serviço...")
-tempo_medio_servico = df_nao_resolvidos.groupby('Categoria_Serviço')['tempo_em_aberto_dias'].agg(['mean', 'count']).round(2)
+# Excluindo a categoria "X"
+df_nao_resolvidos_filtered = df_nao_resolvidos[df_nao_resolvidos['Categoria_Serviço'] != 'X']
+tempo_medio_servico = df_nao_resolvidos_filtered.groupby('Categoria_Serviço')['tempo_em_aberto_dias'].agg(['mean', 'count']).round(2)
 tempo_medio_servico = tempo_medio_servico[tempo_medio_servico['count'] >= 5]  # Filtrando serviços com pelo menos 5 chamados
 tempo_medio_servico = tempo_medio_servico.sort_values('mean', ascending=False)
 
@@ -149,7 +153,7 @@ plt.ylabel('Tempo Médio (dias)')
 plt.xticks(rotation=45, ha='right')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa7/barras_tempo_medio_aberto_servico.png')
+plt.savefig('../GRÁFICOS/graficos_etapa7/barras_tempo_medio_aberto_servico.png')
 plt.close()
 
 # 8. Tempo Médio em Aberto por Prioridade
@@ -164,7 +168,7 @@ plt.xlabel('Prioridade')
 plt.ylabel('Tempo Médio (dias)')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa7/barras_tempo_medio_aberto_prioridade.png')
+plt.savefig('../GRÁFICOS/graficos_etapa7/barras_tempo_medio_aberto_prioridade.png')
 plt.close()
 
 # 9. Análise de Chamados Muito Antigos
@@ -189,7 +193,7 @@ plt.xlabel('Prioridade')
 plt.ylabel('Quantidade de Chamados')
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa7/barras_antigos_por_prioridade.png')
+plt.savefig('../GRÁFICOS/graficos_etapa7/barras_antigos_por_prioridade.png')
 plt.close()
 
 # 11. Evolução Temporal dos Chamados Não Resolvidos
@@ -205,7 +209,7 @@ plt.ylabel('Quantidade de Chamados')
 plt.grid(True)
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa7/linha_evolucao_temporal.png')
+plt.savefig('../GRÁFICOS/graficos_etapa7/linha_evolucao_temporal.png')
 plt.close()
 
 # 12. Heatmap de Chamados Não Resolvidos por Estado e Tipo de Serviço
@@ -218,7 +222,7 @@ plt.title('Heatmap: Chamados Não Resolvidos por Estado e Tipo de Serviço')
 plt.xlabel('Tipo de Serviço')
 plt.ylabel('Estado')
 plt.tight_layout()
-plt.savefig('GRÁFICOS/graficos_etapa7/heatmap_estado_servico.png')
+plt.savefig('../GRÁFICOS/graficos_etapa7/heatmap_estado_servico.png')
 plt.close()
 
 # Conclusões da Análise de Chamados Não Resolvidos
