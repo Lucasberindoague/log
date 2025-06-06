@@ -134,22 +134,6 @@ servico_stats = df_valid.groupby('Categoria_Serviço').agg({
     'Estado_UF': 'count'
 }).round(2)
 
-# Top 10 tipos de serviço mais frequentes
-top_10_servicos = df_valid['Categoria_Serviço'].value_counts().head(10).index
-
-# Boxplot de Avaliação por Tipo de Serviço (Top 10)
-plt.figure(figsize=(15, 6))
-sns.boxplot(x='Categoria_Serviço', y='Nota_Avaliação', 
-            data=df_valid[df_valid['Categoria_Serviço'].isin(top_10_servicos)])
-plt.title('Distribuição da Avaliação por Tipo de Serviço (Top 10)')
-plt.xlabel('Tipo de Serviço')
-plt.ylabel('Avaliação')
-plt.xticks(rotation=45, ha='right')
-plt.grid(True)
-plt.tight_layout()
-plt.savefig('../GRÁFICOS/graficos_etapa8/boxplot_avaliacao_servico.png')
-plt.close()
-
 # 5. Análise Temporal
 print("\nAnalisando padrões temporais...")
 df_valid['mes_ano'] = df_valid['Data_Criação'].dt.to_period('M')
@@ -158,53 +142,9 @@ temporal_stats = df_valid.groupby('mes_ano').agg({
     'Nota_Avaliação': 'mean'
 }).round(2)
 
-plt.figure(figsize=(15, 6))
-temporal_stats.plot(y=['tempo_resolucao_dias', 'Nota_Avaliação'], marker='o')
-plt.title('Evolução Temporal: Tempo de Resolução e Avaliação Média')
-plt.xlabel('Mês/Ano')
-plt.ylabel('Valor')
-plt.legend(['Tempo Médio (dias)', 'Avaliação Média'])
-plt.grid(True)
-plt.tight_layout()
-plt.savefig('../GRÁFICOS/graficos_etapa8/evolucao_temporal.png')
-plt.close()
-
-# 6. Análise de Clusters (K-means)
-print("\nRealizando análise de clusters...")
-# Preparando dados para clustering
-X = df_valid[['tempo_resolucao_dias', 'Nota_Avaliação']].copy()
-# Removendo linhas com valores NaN
-X = X.dropna()
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
-
-# Aplicando K-means
-n_clusters = 3
-kmeans = KMeans(n_clusters=n_clusters, random_state=42)
-X['cluster'] = kmeans.fit_predict(X_scaled)
-
-# Visualizando clusters
-plt.figure(figsize=(10, 6))
-scatter = plt.scatter(X['tempo_resolucao_dias'], 
-                     X['Nota_Avaliação'], 
-                     c=X['cluster'], 
-                     cmap='viridis', 
-                     alpha=0.5)
-plt.colorbar(scatter)
-plt.title('Clusters de Chamados por Tempo e Avaliação')
-plt.xlabel('Tempo de Resolução (dias)')
-plt.ylabel('Avaliação do Cliente')
-plt.grid(True)
-plt.tight_layout()
-plt.savefig('../GRÁFICOS/graficos_etapa8/clusters.png')
-plt.close()
-
-# Verificando sazonalidade
-has_seasonality = temporal_stats.index.size >= 12 and temporal_stats['tempo_resolucao_dias'].std() > temporal_stats['tempo_resolucao_dias'].mean() * 0.1
-
-# Conclusões da Análise de Correlações
+# Conclusões da Análise
 print("\n" + "="*80)
-print("CONCLUSÕES DA ANÁLISE DE CORRELAÇÕES E PADRÕES")
+print("CONCLUSÕES DA ANÁLISE")
 print("="*80)
 
 print("""
@@ -257,7 +197,7 @@ print("""
     (servico_stats[('Nota_Avaliação', 'std')] < 1).mean() * 100,
     "Crescente" if temporal_stats['tempo_resolucao_dias'].corr(pd.Series(range(len(temporal_stats)))) > 0.3 else "Decrescente" if temporal_stats['tempo_resolucao_dias'].corr(pd.Series(range(len(temporal_stats)))) < -0.3 else "Estável",
     "Crescente" if temporal_stats['Nota_Avaliação'].corr(pd.Series(range(len(temporal_stats)))) > 0.3 else "Decrescente" if temporal_stats['Nota_Avaliação'].corr(pd.Series(range(len(temporal_stats)))) < -0.3 else "Estável",
-    "Sim" if has_seasonality else "Não",
+    "Sim" if temporal_stats.index.size >= 12 and temporal_stats['tempo_resolucao_dias'].std() > temporal_stats['tempo_resolucao_dias'].mean() * 0.1 else "Não",
     n_clusters,
     "Tempo baixo e avaliação alta" if kmeans.cluster_centers_[0][0] < 0 and kmeans.cluster_centers_[0][1] > 0 else "Padrão médio",
     (X['cluster'] == 0).mean() * 100,
