@@ -31,6 +31,17 @@ df = pd.read_excel('BD/0 - BD_tratado.xlsx')
 print("\nColunas disponíveis no DataFrame:")
 print(df.columns.tolist())
 
+# Definindo colunas categóricas e numéricas
+colunas_categoricas = [
+    'Status_Chamado', 'Prioridade', 'Estado_UF', 'Origem_Chamado',
+    'Local', 'Tipo_Serviço', 'Categoria_Serviço', 'Status_Etapa',
+    'Tipo_Atendimento', 'Dia_Semana'
+]
+
+colunas_numericas = [
+    'Nota_Avaliação', 'Tempo_Resolução_Horas', 'Hora_Chamado'
+]
+
 # Dicionário com as explicações e estatísticas para cada variável numérica
 numeric_explanations = {
     'Nota_Avaliação': {
@@ -340,3 +351,28 @@ Todos os gráficos foram salvos no diretório 'graficos_etapa1':
 Esta análise fornece uma base sólida para entender a estrutura e qualidade dos dados,
 permitindo decisões informadas nas próximas etapas do projeto.
 """.format(len(colunas_numericas), len(colunas_categoricas), len(df)))
+
+# Gerando gráfico de pizza da distribuição de chamados por cliente
+print("\nGerando gráfico de distribuição de chamados por cliente...")
+
+# Calculando os valores
+chamados_por_cliente = df['Nome_Cliente'].value_counts()
+cliente_principal = chamados_por_cliente.iloc[0]
+outros_clientes = chamados_por_cliente[1:].sum()
+
+# Criando dados para o gráfico de pizza
+valores = [cliente_principal, outros_clientes]
+labels = [f'Cliente {chamados_por_cliente.index[0]}\n({cliente_principal:,} chamados)', f'Outros Clientes\n({outros_clientes:,} chamados)']
+cores = ['#1f77b4', '#ff7f0e']
+
+# Criando o gráfico com tamanho reduzido
+plt.figure(figsize=(8, 6))
+plt.pie(valores, labels=labels, colors=cores, autopct='%1.1f%%', startangle=90)
+plt.title('Distribuição dos Chamados por Cliente')
+plt.axis('equal')
+
+# Salvando o gráfico
+plt.savefig('GRÁFICOS/graficos_etapa1/pizza_distribuicao_clientes.png', dpi=300, bbox_inches='tight')
+plt.close()
+
+print("Gráfico de distribuição de chamados por cliente gerado com sucesso!")

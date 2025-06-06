@@ -1,31 +1,16 @@
 Variáveis Numéricas:
-vlr_nota_avaliacao_cliente_atendimento
-des_veiculo_modelo
-vlr_time_spent_last_update
-vlr_total_time_spent
-cod_chamado
-tempo_resolucao
-avaliacao_cliente
-hora
+Nota_Avaliação
+Tempo_Resolução_Horas
+Hora_Chamado
 
 Variáveis Categóricas:
-des_assunto
-des_chamado
-des_status
-des_prioridade
-cod_uf
-des_origem_ticket
-des_armazem
-des_condominio
-des_comentario
-des_local
-des_servico
-des_tipo_servico
-des_status_etapa
-des_atendimento
-num_telefone
-nom_cliente
-nom_usuario_solicitante
-des_responsavel
-dia_semana
-Status do Chamado
+Status_Chamado
+Prioridade
+Estado_UF
+Origem_Chamado
+Local
+Tipo_Serviço
+Categoria_Serviço
+Status_Etapa
+Tipo_Atendimento
+Dia_Semana
